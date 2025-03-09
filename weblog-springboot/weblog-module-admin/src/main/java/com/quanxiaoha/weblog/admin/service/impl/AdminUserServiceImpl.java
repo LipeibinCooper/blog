@@ -37,8 +37,8 @@ public class AdminUserServiceImpl implements AdminUserService {
         String username = updateAdminUserPasswordReqVO.getUsername();
         String password = updateAdminUserPasswordReqVO.getPassword();
 
-        // 加密密码
-        String encodePassword = passwordEncoder.encode(password);
+        // 直接使用明文密码，不再加密
+        String encodePassword = password;
 
         // 更新到数据库
         int count = userMapper.updatePasswordByUsername(username, encodePassword);

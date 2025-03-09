@@ -14,35 +14,35 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://47.98.119.250:8080',
+        target: 'http://localhost:8080',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
+        rewrite: path => path.replace(/^\/api/, '')
+      }
     }
   },
   plugins: [
     vue(),
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver()]
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver()]
     }),
     ViteCompressionPlugin({
       filter: /\.(js|css)$/i, // 只压缩 js 和 css 文件
       threshold: 1024, // 只压缩大于 1KB 的文件
       algorithm: 'gzip', // 使用 gzip 算法
-      ext: '.gz', // 压缩文件的扩展名
+      ext: '.gz' // 压缩文件的扩展名
     }),
     importToCDN({
       modules: [
         {
           name: 'echarts',
           var: 'echarts',
-          path: 'https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js',
-        },
-      ],
-    }),
+          path: 'https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js'
+        }
+      ]
+    })
   ],
   resolve: {
     alias: {

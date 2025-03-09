@@ -13,8 +13,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
- * @author: 木萨·塔布提
- * @url: blog.arnasoft.site
+ * @author: Admin
+ * @url: example.com
  * @date: 2023-08-16 7:53
  * @description: Knife4j 配置
  **/
@@ -43,10 +43,10 @@ public class Knife4jConfig {
      */
     private ApiInfo buildApiInfo() {
         return new ApiInfoBuilder()
-                .title("Weblog 博客前台接口文档") // 标题
-                .description("Weblog 是一款由 Spring Boot + Vue 3.2 + Vite 4.3 开发的前后端分离博客。") // 描述
-                .termsOfServiceUrl("https://blog.arnasoft.site/") // API 服务条款
-                .contact(new Contact("木萨·塔布提", "https://blog.arnasoft.site", "871361652@qq.com")) // 联系人
+                .title("灵感博客前台接口文档") // 标题
+                .description("灵感博客是一款由 Spring Boot + Vue 3.2 + Vite 4.3 开发的前后端分离博客。") // 描述
+                .termsOfServiceUrl("https://example.com/") // API 服务条款
+                .contact(new Contact("灵感博客", "https://example.com", "admin@example.com")) // 联系人
                 .version("1.0") // 版本号
                 .build();
     }

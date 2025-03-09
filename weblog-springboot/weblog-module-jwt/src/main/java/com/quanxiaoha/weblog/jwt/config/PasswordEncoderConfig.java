@@ -1,7 +1,7 @@
 package com.quanxiaoha.weblog.jwt.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +16,12 @@ public class PasswordEncoderConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // BCrypt 是一种安全且适合密码存储的哈希算法，它在进行哈希时会自动加入“盐”，增加密码的安全性。
-        return new BCryptPasswordEncoder();
+        // 使用NoOpPasswordEncoder，不对密码进行加密，直接使用明文密码
+        return NoOpPasswordEncoder.getInstance();
     }
 
     public static void main(String[] args) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("111"));
+        // 不再需要加密测试
+        System.out.println("使用明文密码，无需加密");
     }
 }
