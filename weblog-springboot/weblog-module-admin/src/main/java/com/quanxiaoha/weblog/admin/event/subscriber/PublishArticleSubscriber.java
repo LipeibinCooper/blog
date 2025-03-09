@@ -73,8 +73,8 @@ public class PublishArticleSubscriber implements ApplicationListener<PublishArti
         statisticsService.statisticsTagArticleTotal();
         log.info("==> 重新统计各标签下文章总数");
 
-        // 重新统计各分类下文章总数
+        // 重新统计各灵感下文章总数
         statisticsService.statisticsCategoryArticleTotal();
-        log.info("==> 重新统计各分类下文章总数");
+        log.info("==> 重新统计各灵感下文章总数");
     }
 }

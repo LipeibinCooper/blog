@@ -37,7 +37,7 @@ public class PublishArticleReqVO {
 
     private String summary;
 
-    @NotNull(message = "文章分类不能为空")
+    @NotNull(message = "文章灵感不能为空")
     private Long categoryId;
 
     @NotEmpty(message = "文章标签不能为空")

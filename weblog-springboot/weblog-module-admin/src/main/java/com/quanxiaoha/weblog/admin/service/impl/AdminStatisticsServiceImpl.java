@@ -41,13 +41,13 @@ public class AdminStatisticsServiceImpl implements AdminStatisticsService {
 
     @Override
     public void statisticsCategoryArticleTotal() {
-        // 查询所有分类
+        // 查询所有灵感
         List<CategoryDO> categoryDOS = categoryMapper.selectList(Wrappers.emptyWrapper());
 
-        // 查询所有文章-分类映射记录
+        // 查询所有文章-灵感映射记录
         List<ArticleCategoryRelDO> articleCategoryRelDOS = articleCategoryRelMapper.selectList(Wrappers.emptyWrapper());
 
-        // 按所属分类 ID 进行分组
+        // 按所属灵感 ID 进行分组
         Map<Long, List<ArticleCategoryRelDO>> categoryIdAndArticleCategoryRelDOMap = Maps.newHashMap();
         // 如果不为空
         if (!CollectionUtils.isEmpty(articleCategoryRelDOS)) {
@@ -56,16 +56,16 @@ public class AdminStatisticsServiceImpl implements AdminStatisticsService {
         }
 
         if (!CollectionUtils.isEmpty(categoryDOS)) {
-            // 循环统计各分类下的文章总数
+            // 循环统计各灵感下的文章总数
             for (CategoryDO categoryDO : categoryDOS) {
                 Long categoryId = categoryDO.getId();
-                // 获取此分类下所有映射记录
+                // 获取此灵感下所有映射记录
                 List<ArticleCategoryRelDO> articleCategoryRelDOList = categoryIdAndArticleCategoryRelDOMap.get(categoryId);
 
                 // 获取文章总数
                 int articlesTotal = CollectionUtils.isEmpty(articleCategoryRelDOList) ? 0 : articleCategoryRelDOList.size();
 
-                // 更新该分类的文章总数
+                // 更新该灵感的文章总数
                 CategoryDO categoryDO1 = CategoryDO.builder()
                         .id(categoryId)
                         .articlesTotal(articlesTotal)

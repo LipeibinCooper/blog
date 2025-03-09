@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-08-22 17:01
- * @description: 分类
+ * @description: 灵感
  **/
 @Data
 @AllArgsConstructor

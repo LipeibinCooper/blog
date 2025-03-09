@@ -10,7 +10,7 @@
         :class="[
           isExpand
             ? 'left-[max(0px,calc(50%-45rem))] w-[20rem] pl-8'
-            : 'left-0 w-0 pl-0 2xl:left-[max(0px,calc(50%-45rem))] 2xl:w-[19rem] 2xl:pl-8',
+            : 'left-0 w-0 pl-0 2xl:left-[max(0px,calc(50%-45rem))] 2xl:w-[19rem] 2xl:pl-8'
         ]"
       >
         <div class="flex">
@@ -36,10 +36,10 @@
                     "
                     :aria-expanded="[
                       catalog.children.some(
-                        (item) => item.articleId == route.query.articleId
+                        item => item.articleId == route.query.articleId
                       )
                         ? true
-                        : false,
+                        : false
                     ]"
                     :aria-controls="'accordion-flush-body-' + catalog.id"
                   >
@@ -81,7 +81,7 @@
                     :class="[
                       childCatalog.articleId == route.query.articleId
                         ? 'bg-sky-50 text-sky-600 dark:bg-sky-950 dark:text-sky-500'
-                        : 'hover:bg-gray-100 dark:hover:bg-gray-800',
+                        : 'hover:bg-gray-100 dark:hover:bg-gray-800'
                     ]"
                     @click="goWikiArticleDetailPage(childCatalog.articleId)"
                     v-html="childCatalog.title"
@@ -229,7 +229,7 @@
                   <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
-                <!-- 分类 -->
+                <!-- 灵感 -->
                 <div
                   class="flex items-center"
                   data-tooltip-target="category-tooltip-bottom"
@@ -272,7 +272,7 @@
                   role="tooltip"
                   class="absolute z-10 invisible inline-block px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded shadow-sm opacity-0 tooltip dark:bg-gray-700"
                 >
-                  分类
+                  灵感
                   <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
@@ -423,154 +423,154 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, nextTick } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import WikiHeader from "@/layouts/frontend/components/WikiHeader.vue";
-import WikiFooter from "@/layouts/frontend/components/WikiFooter.vue";
-import WikiToc from "@/layouts/frontend/components/WikiToc.vue";
-import { getArticleDetail } from "@/api/frontend/article";
-import { useDark } from "@vueuse/core";
-import { getWikiArticlePreNext, getWikiCatalogs } from "@/api/frontend/wiki";
-import hljs from "highlight.js/lib/common";
-import "highlight.js/styles/tokyo-night-dark.css";
-import ScrollToTopButton from "@/layouts/frontend/components/ScrollToTopButton.vue";
-import { initAccordions } from "flowbite";
+import { ref, watch, onMounted, nextTick } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import WikiHeader from '@/layouts/frontend/components/WikiHeader.vue'
+import WikiFooter from '@/layouts/frontend/components/WikiFooter.vue'
+import WikiToc from '@/layouts/frontend/components/WikiToc.vue'
+import { getArticleDetail } from '@/api/frontend/article'
+import { useDark } from '@vueuse/core'
+import { getWikiArticlePreNext, getWikiCatalogs } from '@/api/frontend/wiki'
+import hljs from 'highlight.js/lib/common'
+import 'highlight.js/styles/tokyo-night-dark.css'
+import ScrollToTopButton from '@/layouts/frontend/components/ScrollToTopButton.vue'
+import { initAccordions } from 'flowbite'
 
 onMounted(() => {
-  nextTick(() => initAccordions());
-});
+  nextTick(() => initAccordions())
+})
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
-const catalogs = ref([]);
+const catalogs = ref([])
 
 // 获取当前知识库的目录数据
-getWikiCatalogs(route.params.wikiId).then((res) => {
+getWikiCatalogs(route.params.wikiId).then(res => {
   if (res.success) {
-    catalogs.value = res.data;
+    catalogs.value = res.data
     // 获取数据成功后，初始化 Accordions 组件
-    nextTick(() => initAccordions());
+    nextTick(() => initAccordions())
   }
-});
+})
 
 // 是否为暗黑模式
-const isDark = useDark({disableTransition: false})
+const isDark = useDark({ disableTransition: false })
 
 // 文章数据
-const article = ref({});
+const article = ref({})
 // 上下页
-const preNext = ref(null);
+const preNext = ref(null)
 
 // 获取文章详情
-function refreshArticleDetail(articleId) {
+function refreshArticleDetail (articleId) {
   if (!articleId) {
     // 该知识库下暂未添加文章
-    return;
+    return
   }
 
   // 文章详情
-  getArticleDetail(articleId).then((res) => {
+  getArticleDetail(articleId).then(res => {
     // 该文章不存在(错误码为 20010)
-    if (!res.success && res.errorCode == "20010") {
+    if (!res.success && res.errorCode == '20010') {
       // 手动跳转 404 页面
-      router.push({ name: "NotFound" });
-      return;
+      router.push({ name: 'NotFound' })
+      return
     }
 
-    article.value = res.data;
+    article.value = res.data
 
     nextTick(() => {
       // 获取所有 pre code 节点
-      let highlight = document.querySelectorAll("pre code");
+      let highlight = document.querySelectorAll('pre code')
       // 循环高亮
-      highlight.forEach((block) => {
-        hljs.highlightElement(block);
-      });
+      highlight.forEach(block => {
+        hljs.highlightElement(block)
+      })
 
-      let preElements = document.querySelectorAll("pre");
-      preElements.forEach((preElement) => {
+      let preElements = document.querySelectorAll('pre')
+      preElements.forEach(preElement => {
         // 找到第一个 code 元素
-        let firstCode = preElement.querySelector("code");
+        let firstCode = preElement.querySelector('code')
         if (firstCode) {
           let copyCodeBtn =
-            '<button class="hidden copy-code-btn flex items-center justify-center"><div class="copy-icon"></div></button>';
-          firstCode.insertAdjacentHTML("beforebegin", copyCodeBtn);
+            '<button class="hidden copy-code-btn flex items-center justify-center"><div class="copy-icon"></div></button>'
+          firstCode.insertAdjacentHTML('beforebegin', copyCodeBtn)
 
           // 获取刚插入的按钮
-          let copyBtn = firstCode.previousSibling;
-          copyBtn.addEventListener("click", () => {
+          let copyBtn = firstCode.previousSibling
+          copyBtn.addEventListener('click', () => {
             // 添加 copied 样式
-            copyBtn.classList.add("copied");
-            copyToClipboard(preElement.textContent);
+            copyBtn.classList.add('copied')
+            copyToClipboard(preElement.textContent)
             // 3秒后移除 copied 样式
             setTimeout(() => {
-              copyBtn.classList.remove("copied");
-            }, 1500);
-          });
+              copyBtn.classList.remove('copied')
+            }, 1500)
+          })
         }
 
         // 添加事件监听器
-        preElement.addEventListener("mouseenter", handleMouseEnter);
-        preElement.addEventListener("mouseleave", handleMouseLeave);
-      });
-    });
-  });
+        preElement.addEventListener('mouseenter', handleMouseEnter)
+        preElement.addEventListener('mouseleave', handleMouseLeave)
+      })
+    })
+  })
 
   // 上下页
   getWikiArticlePreNext({ id: route.params.wikiId, articleId: articleId }).then(
-    (res) => {
+    res => {
       if (res.success) {
-        preNext.value = res.data;
+        preNext.value = res.data
       }
     }
-  );
+  )
 }
-refreshArticleDetail(route.query.articleId);
+refreshArticleDetail(route.query.articleId)
 
-const handleMouseEnter = (event) => {
+const handleMouseEnter = event => {
   // 鼠标移入，显示按钮
-  let copyBtn = event.target.querySelector("button");
+  let copyBtn = event.target.querySelector('button')
   if (copyBtn) {
-    copyBtn.classList.remove("hidden");
-    copyBtn.classList.add("block");
+    copyBtn.classList.remove('hidden')
+    copyBtn.classList.add('block')
   }
-};
+}
 
-const handleMouseLeave = (event) => {
+const handleMouseLeave = event => {
   // 鼠标移出，隐藏按钮
-  let copyBtn = event.target.querySelector("button");
+  let copyBtn = event.target.querySelector('button')
   if (copyBtn) {
-    copyBtn.classList.add("hidden");
+    copyBtn.classList.add('hidden')
   }
-};
+}
 
-function copyToClipboard(text) {
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand("copy");
-  document.body.removeChild(textarea);
+function copyToClipboard (text) {
+  const textarea = document.createElement('textarea')
+  textarea.value = text
+  document.body.appendChild(textarea)
+  textarea.select()
+  document.execCommand('copy')
+  document.body.removeChild(textarea)
 }
 
 // 跳转文章详情页
-const goWikiArticleDetailPage = (articleId) => {
-  router.push({ path: "/wiki/" + route.params.wikiId, query: { articleId } });
-};
+const goWikiArticleDetailPage = articleId => {
+  router.push({ path: '/wiki/' + route.params.wikiId, query: { articleId } })
+}
 
 // 监听路由
 watch(route, (newRoute, oldRoute) => {
   // 重新渲染文章详情
-  refreshArticleDetail(newRoute.query.articleId);
-});
+  refreshArticleDetail(newRoute.query.articleId)
+})
 
 // 目录是否展开，默认为 true
-const isExpand = ref(true);
+const isExpand = ref(true)
 // 点击收缩、展开
 const shrinkAndExpand = () => {
-  isExpand.value = !isExpand.value;
-};
+  isExpand.value = !isExpand.value
+}
 </script>
 
 <style scoped>
@@ -585,18 +585,12 @@ const shrinkAndExpand = () => {
 }
 
 /* h1, h2, h3, h4, h5, h6 标题样式 */
-::v-deep(
-    .article-content h1,
-    .article-content h2,
-    .article-content h3,
-    .article-content h4,
-    .article-content h5,
-    .article-content h6
-  ) {
+::v-deep(.article-content h1, .article-content h2, .article-content
+    h3, .article-content h4, .article-content h5, .article-content h6) {
   color: #292525;
   line-height: 150%;
   font-family: PingFang SC, Helvetica Neue, Helvetica, Hiragino Sans GB,
-    Microsoft YaHei, "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
+    Microsoft YaHei, '\5FAE\8F6F\96C5\9ED1', Arial, sans-serif;
 }
 
 ::v-deep(.article-content h2) {
@@ -833,7 +827,7 @@ const shrinkAndExpand = () => {
   background: #fc625d;
   border-radius: 50%;
   box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
-  content: " ";
+  content: ' ';
   height: 10px;
   margin-top: -19px;
   margin-left: 10px;
@@ -940,7 +934,7 @@ const shrinkAndExpand = () => {
 }
 
 ::v-deep(.copied:after) {
-  content: "已复制";
+  content: '已复制';
   position: absolute;
   top: 0;
   right: calc(100% + 0.25rem);
@@ -1000,7 +994,7 @@ const shrinkAndExpand = () => {
 }
 
 /* 暗黑主题下箭头 */
-html[class="dark"] .left-toc-sidebar .arrow {
+html[class='dark'] .left-toc-sidebar .arrow {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(255,255,255,0.5)' d='M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z'/%3E%3C/svg%3E");
 }
 </style>

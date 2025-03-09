@@ -34,7 +34,7 @@
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>
 
-      <!-- 文章数量、分类数量、标签数量、总访问量 -->
+      <!-- 文章数量、灵感数量、标签数量、总访问量 -->
       <div class="flex justify-center gap-5 mb-2 dark:text-gray-400">
         <div
           @click="router.push('/archive/list')"
@@ -54,7 +54,7 @@
             :value="statisticsInfo.categoryTotalCount"
             customClass="text-lg font-bold"
           ></CountTo>
-          <div class="text-sm">分类</div>
+          <div class="text-sm">灵感</div>
         </div>
         <div
           @click="router.push('/tag/list')"
@@ -222,30 +222,30 @@
 </template>
 
 <script setup>
-import { useBlogSettingsStore } from "@/stores/blogsettings";
-import { initTooltips } from "flowbite";
-import { onMounted, ref } from "vue";
-import { getStatisticsInfo } from "@/api/frontend/statistics";
-import CountTo from "@/components/CountTo.vue";
+import { useBlogSettingsStore } from '@/stores/blogsettings'
+import { initTooltips } from 'flowbite'
+import { onMounted, ref } from 'vue'
+import { getStatisticsInfo } from '@/api/frontend/statistics'
+import CountTo from '@/components/CountTo.vue'
 
 // 初始化 Flowbit 组件
 onMounted(() => {
-  initTooltips();
-});
+  initTooltips()
+})
 
 // 引入博客设置信息 store
-const blogSettingsStore = useBlogSettingsStore();
+const blogSettingsStore = useBlogSettingsStore()
 
-const jump = (url) => {
+const jump = url => {
   // 在新窗口访问新的链接地址
-  window.open(url, "_blank");
-};
+  window.open(url, '_blank')
+}
 
-// 统计信息(文章、分类、标签数量、总访问量)
-const statisticsInfo = ref({});
-getStatisticsInfo().then((res) => {
+// 统计信息(文章、灵感、标签数量、总访问量)
+const statisticsInfo = ref({})
+getStatisticsInfo().then(res => {
   if (res.success) {
-    statisticsInfo.value = res.data;
+    statisticsInfo.value = res.data
   }
-});
+})
 </script>

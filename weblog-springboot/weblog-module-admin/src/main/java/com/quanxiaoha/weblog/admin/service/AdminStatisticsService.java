@@ -9,7 +9,7 @@ package com.quanxiaoha.weblog.admin.service;
 public interface AdminStatisticsService {
 
     /**
-     * 统计各分类下文章总数
+     * 统计各灵感下文章总数
      */
     void statisticsCategoryArticleTotal();
 

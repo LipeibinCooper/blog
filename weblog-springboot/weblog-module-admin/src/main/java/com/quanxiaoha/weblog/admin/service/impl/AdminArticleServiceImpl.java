@@ -115,13 +115,13 @@ public class AdminArticleServiceImpl implements AdminArticleService {
                 .build();
         articleContentMapper.insert(articleContentDO);
 
-        // 3. 处理文章关联的分类
+        // 3. 处理文章关联的灵感
         Long categoryId = publishArticleReqVO.getCategoryId();
 
-        // 3.1 校验提交的分类是否真实存在
+        // 3.1 校验提交的灵感是否真实存在
         CategoryDO categoryDO = categoryMapper.selectById(categoryId);
         if (Objects.isNull(categoryDO)) {
-            log.warn("==> 分类不存在, categoryId: {}", categoryId);
+            log.warn("==> 灵感不存在, categoryId: {}", categoryId);
             throw new BizException(ResponseCodeEnum.CATEGORY_NOT_EXISTED);
         }
 
@@ -158,7 +158,7 @@ public class AdminArticleServiceImpl implements AdminArticleService {
         // 2. 删除文章内容
         articleContentMapper.deleteByArticleId(articleId);
 
-        // 3. 删除文章-分类关联记录
+        // 3. 删除文章-灵感关联记录
         articleCategoryRelMapper.deleteByArticleId(articleId);
 
         // 4. 删除文章-标签关联记录
@@ -227,7 +227,7 @@ public class AdminArticleServiceImpl implements AdminArticleService {
 
         ArticleContentDO articleContentDO = articleContentMapper.selectByArticleId(articleId);
 
-        // 所属分类
+        // 所属灵感
         ArticleCategoryRelDO articleCategoryRelDO = articleCategoryRelMapper.selectByArticleId(articleId);
 
         // 对应标签
@@ -279,17 +279,17 @@ public class AdminArticleServiceImpl implements AdminArticleService {
         articleContentMapper.updateByArticleId(articleContentDO);
 
 
-        // 3. 更新文章分类
+        // 3. 更新文章灵感
         Long categoryId = updateArticleReqVO.getCategoryId();
 
-        // 3.1 校验提交的分类是否真实存在
+        // 3.1 校验提交的灵感是否真实存在
         CategoryDO categoryDO = categoryMapper.selectById(categoryId);
         if (Objects.isNull(categoryDO)) {
-            log.warn("==> 分类不存在, categoryId: {}", categoryId);
+            log.warn("==> 灵感不存在, categoryId: {}", categoryId);
             throw new BizException(ResponseCodeEnum.CATEGORY_NOT_EXISTED);
         }
 
-        // 先删除该文章关联的分类记录，再插入新的关联关系
+        // 先删除该文章关联的灵感记录，再插入新的关联关系
         articleCategoryRelMapper.deleteByArticleId(articleId);
         ArticleCategoryRelDO articleCategoryRelDO = ArticleCategoryRelDO.builder()
                 .articleId(articleId)

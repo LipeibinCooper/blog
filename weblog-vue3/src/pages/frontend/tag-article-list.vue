@@ -58,7 +58,7 @@
               :class="[
                 route.query.name == tag.name
                   ? 'bg-sky-100 hover:bg-sky-200 dark:bg-slate-950'
-                  : 'hover:bg-gray-100',
+                  : 'hover:bg-gray-100'
               ]"
               class="cursor-pointer inline-flex items-center px-3.5 py-1.5 text-xs font-medium text-center border rounded-[12px] focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700 dark:hover:text-white"
             >
@@ -674,7 +674,7 @@
                 :class="[
                   pageNo == current
                     ? 'text-sky-600  bg-sky-50 border-sky-500 hover:bg-sky-100 hover:text-sky-700'
-                    : 'text-gray-500 border-gray-300 bg-white hover:bg-gray-100 hover:text-gray-700',
+                    : 'text-gray-500 border-gray-300 bg-white hover:bg-gray-100 hover:text-gray-700'
                 ]"
               >
                 {{ index + 1 }}
@@ -685,7 +685,9 @@
               <a
                 @click="getTagArticles(current + 1)"
                 class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                :class="[current < pages ? 'cursor-pointer' : 'cursor-not-allowed']"
+                :class="[
+                  current < pages ? 'cursor-pointer' : 'cursor-not-allowed'
+                ]"
               >
                 <span class="sr-only">下一页</span>
                 <svg
@@ -715,7 +717,7 @@
           <!-- 博主信息 -->
           <UserInfoCard></UserInfoCard>
 
-          <!-- 分类 -->
+          <!-- 灵感 -->
           <CategoryListCard></CategoryListCard>
 
           <!-- 标签 -->
@@ -732,78 +734,78 @@
 </template>
 
 <script setup>
-import Header from "@/layouts/frontend/components/Header.vue";
-import Footer from "@/layouts/frontend/components/Footer.vue";
-import UserInfoCard from "@/layouts/frontend/components/UserInfoCard.vue";
-import TagListCard from "@/layouts/frontend/components/TagListCard.vue";
-import CategoryListCard from "@/layouts/frontend/components/CategoryListCard.vue";
-import ScrollToTopButton from "@/layouts/frontend/components/ScrollToTopButton.vue";
-import { ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { getTagArticlePageList, getTagList } from "@/api/frontend/tag";
+import Header from '@/layouts/frontend/components/Header.vue'
+import Footer from '@/layouts/frontend/components/Footer.vue'
+import UserInfoCard from '@/layouts/frontend/components/UserInfoCard.vue'
+import TagListCard from '@/layouts/frontend/components/TagListCard.vue'
+import CategoryListCard from '@/layouts/frontend/components/CategoryListCard.vue'
+import ScrollToTopButton from '@/layouts/frontend/components/ScrollToTopButton.vue'
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { getTagArticlePageList, getTagList } from '@/api/frontend/tag'
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
 // 文章集合
-const articles = ref([]);
+const articles = ref([])
 // 标签名称
-const tagName = ref(route.query.name);
+const tagName = ref(route.query.name)
 // 标签 ID
-const tagId = ref(route.query.id);
+const tagId = ref(route.query.id)
 
 // 监听路由
 watch(route, (newRoute, oldRoute) => {
-  tagName.value = newRoute.query.name;
-  tagId.value = newRoute.query.id;
-  getTagArticles(current.value);
-});
+  tagName.value = newRoute.query.name
+  tagId.value = newRoute.query.id
+  getTagArticles(current.value)
+})
 
 // 当前页码
-const current = ref(1);
+const current = ref(1)
 // 每页显示的文章数
-const size = ref(4);
+const size = ref(4)
 // 总文章数
-const total = ref(0);
+const total = ref(0)
 // 总共多少页
-const pages = ref(0);
+const pages = ref(0)
 
-function getTagArticles(currentNo) {
+function getTagArticles (currentNo) {
   // 上下页是否能点击判断，当要跳转上一页且页码小于 1 时，则不允许跳转；当要跳转下一页且页码大于总页数时，则不允许跳转
-  if (currentNo < 1 || (pages.value > 0 && currentNo > pages.value)) return;
+  if (currentNo < 1 || (pages.value > 0 && currentNo > pages.value)) return
   // 调用分页接口渲染数据
   getTagArticlePageList({
     current: currentNo,
     size: size.value,
-    id: tagId.value,
-  }).then((res) => {
+    id: tagId.value
+  }).then(res => {
     if (res.success) {
-      articles.value = res.data;
-      current.value = res.current;
-      size.value = res.size;
-      total.value = res.total;
-      pages.value = res.pages;
+      articles.value = res.data
+      current.value = res.current
+      size.value = res.size
+      total.value = res.total
+      pages.value = res.pages
     }
-  });
+  })
 }
-getTagArticles(current.value);
+getTagArticles(current.value)
 
 // 跳转文章详情页
-const goArticleDetailPage = (articleId) => {
-  router.push("/article/" + articleId);
-};
+const goArticleDetailPage = articleId => {
+  router.push('/article/' + articleId)
+}
 
 // 所有标签
-const tags = ref([]);
-getTagList({}).then((res) => {
+const tags = ref([])
+getTagList({}).then(res => {
   if (res.success) {
-    tags.value = res.data;
+    tags.value = res.data
   }
-});
+})
 
 // 跳转标签文章列表页
 const goTagArticleListPage = (id, name) => {
   // 跳转时通过 query 携带参数（标签 ID、标签名称）
-  router.push({ path: "/tag/article/list", query: { id, name } });
-};
+  router.push({ path: '/tag/article/list', query: { id, name } })
+}
 </script>

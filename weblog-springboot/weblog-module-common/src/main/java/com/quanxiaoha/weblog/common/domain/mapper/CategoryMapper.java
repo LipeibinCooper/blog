@@ -20,7 +20,7 @@ import java.util.Objects;
 public interface CategoryMapper extends BaseMapper<CategoryDO> {
 
     /**
-     * 查询分类分页数据
+     * 查询灵感分页数据
      * @return
      */
     default Page<CategoryDO> selectPageList(long current, long size, String name, LocalDate startDate, LocalDate endDate) {

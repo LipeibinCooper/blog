@@ -3,7 +3,7 @@
     v-if="tags.length > 0"
     class="w-full p-5 mb-3 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700"
   >
-    <!-- 分类标题 -->
+    <!-- 灵感标题 -->
     <div class="flex mb-3">
       <h2
         class="flex items-center font-bold text-gray-900 uppercase dark:text-white"
@@ -72,7 +72,7 @@
       </a>
     </div>
 
-    <!-- 分类列表 -->
+    <!-- 灵感列表 -->
     <div
       class="text-sm flex flex-wrap gap-3 font-medium text-gray-600 rounded-lg dark:border-gray-600 dark:text-white"
     >
@@ -94,26 +94,26 @@
 </template>
 
 <script setup>
-import { getTagList } from "@/api/frontend/tag";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { getTagList } from '@/api/frontend/tag'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
 // 所有标签
-const tags = ref([]);
-// 一次显示的分类数
-const size = ref(10);
+const tags = ref([])
+// 一次显示的灵感数
+const size = ref(10)
 
-getTagList({ size: size.value }).then((res) => {
+getTagList({ size: size.value }).then(res => {
   if (res.success) {
-    tags.value = res.data;
+    tags.value = res.data
   }
-});
+})
 
 // 跳转标签文章列表页
 const goTagArticleListPage = (id, name) => {
   // 跳转时通过 query 携带参数（标签 ID、标签名称）
-  router.push({ path: "/tag/article/list", query: { id, name } });
-};
+  router.push({ path: '/tag/article/list', query: { id, name } })
+}
 </script>

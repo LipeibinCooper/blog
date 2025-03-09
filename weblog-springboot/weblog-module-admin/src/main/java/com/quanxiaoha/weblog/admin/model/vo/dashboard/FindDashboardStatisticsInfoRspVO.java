@@ -19,7 +19,7 @@ public class FindDashboardStatisticsInfoRspVO {
     private Long articleTotalCount;
 
     /**
-     * 分类总数
+     * 灵感总数
      */
     private Long categoryTotalCount;
 

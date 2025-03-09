@@ -13,17 +13,17 @@ import javax.validation.constraints.NotBlank;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-09-15 14:07
- * @description: 分类新增
+ * @description: 灵感新增
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value = "添加分类 VO")
+@ApiModel(value = "添加灵感 VO")
 public class AddCategoryReqVO {
 
-    @NotBlank(message = "分类名称不能为空")
-    @Length(min = 1, max = 20, message = "分类名称字数限制 1 ~ 20 之间")
+    @NotBlank(message = "灵感名称不能为空")
+    @Length(min = 1, max = 20, message = "灵感名称字数限制 1 ~ 20 之间")
     private String name;
 
 }

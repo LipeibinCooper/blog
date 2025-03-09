@@ -18,26 +18,26 @@ import org.springframework.web.bind.annotation.RestController;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-09-15 14:01
- * @description: 分类
+ * @description: 灵感
  **/
 @RestController
 @RequestMapping("/category")
-@Api(tags = "分类控制器")
+@Api(tags = "灵感控制器")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    @ApiOperation(value = "前台获取分类列表")
-    @ApiOperationLog(description = "前台获取分类列表")
+    @ApiOperation(value = "前台获取灵感列表")
+    @ApiOperationLog(description = "前台获取灵感列表")
     public Response findCategoryList(@RequestBody @Validated FindCategoryListReqVO findCategoryListReqVO) {
         return categoryService.findCategoryList(findCategoryListReqVO);
     }
 
     @PostMapping("/article/list")
-    @ApiOperation(value = "前台获取分类下文章分页数据")
-    @ApiOperationLog(description = "前台获取分类下文章分页数据")
+    @ApiOperation(value = "前台获取灵感下文章分页数据")
+    @ApiOperationLog(description = "前台获取灵感下文章分页数据")
     public Response findCategoryArticlePageList(@RequestBody @Validated FindCategoryArticlePageListReqVO findCategoryArticlePageListReqVO) {
         return categoryService.findCategoryArticlePageList(findCategoryArticlePageListReqVO);
     }

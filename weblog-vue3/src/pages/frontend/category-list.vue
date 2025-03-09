@@ -7,13 +7,13 @@
     <div class="grid grid-cols-4 gap-7">
       <!-- 左边栏，占用 3 列 -->
       <div class="col-span-4 md:col-span-3 mb-3">
-        <!-- 分类列表 -->
+        <!-- 灵感列表 -->
         <!-- <CategoryListCard></CategoryListCard> -->
 
         <div
           class="w-full p-5 pb-7 mb-3 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700"
         >
-          <!-- 分类标题 -->
+          <!-- 灵感标题 -->
           <h2
             class="flex items-center mb-5 font-bold text-gray-900 uppercase dark:text-white"
           >
@@ -54,7 +54,7 @@
                 p-id="21577"
               ></path>
             </svg>
-            分类
+            灵感
             <span
               v-if="categories && categories.length > 0"
               class="ml-2 text-gray-600 font-normal dark:text-gray-300"
@@ -62,7 +62,7 @@
             >
           </h2>
 
-          <!-- 分类列表 -->
+          <!-- 灵感列表 -->
           <div
             class="text-sm flex flex-wrap gap-3 font-medium text-gray-600 rounded-lg dark:border-gray-600 dark:text-white"
           >
@@ -103,30 +103,30 @@
 </template>
 
 <script setup>
-import Header from "@/layouts/frontend/components/Header.vue";
-import Footer from "@/layouts/frontend/components/Footer.vue";
-import UserInfoCard from "@/layouts/frontend/components/UserInfoCard.vue";
-import TagListCard from "@/layouts/frontend/components/TagListCard.vue";
-import CategoryListCard from "@/layouts/frontend/components/CategoryListCard.vue";
-import ScrollToTopButton from "@/layouts/frontend/components/ScrollToTopButton.vue";
+import Header from '@/layouts/frontend/components/Header.vue'
+import Footer from '@/layouts/frontend/components/Footer.vue'
+import UserInfoCard from '@/layouts/frontend/components/UserInfoCard.vue'
+import TagListCard from '@/layouts/frontend/components/TagListCard.vue'
+import CategoryListCard from '@/layouts/frontend/components/CategoryListCard.vue'
+import ScrollToTopButton from '@/layouts/frontend/components/ScrollToTopButton.vue'
 
-import { getCategoryList } from "@/api/frontend/category";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { getCategoryList } from '@/api/frontend/category'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
-// 跳转分类文章列表页
+// 跳转灵感文章列表页
 const goCategoryArticleListPage = (id, name) => {
-  // 跳转时通过 query 携带参数（分类 ID、分类名称）
-  router.push({ path: "/category/article/list", query: { id, name } });
-};
+  // 跳转时通过 query 携带参数（灵感 ID、灵感名称）
+  router.push({ path: '/category/article/list', query: { id, name } })
+}
 
-// 所有分类
-const categories = ref([]);
-getCategoryList({}).then((res) => {
+// 所有灵感
+const categories = ref([])
+getCategoryList({}).then(res => {
   if (res.success) {
-    categories.value = res.data;
+    categories.value = res.data
   }
-});
+})
 </script>

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-09-15 14:07
- * @description: 分类分页
+ * @description: 灵感分页
  **/
 @Data
 @AllArgsConstructor
@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 @Builder
 public class FindCategoryPageListRspVO {
     /**
-     * 分类 ID
+     * 灵感 ID
      */
     private Long id;
 
     /**
-     * 分类名称
+     * 灵感名称
      */
     private String name;
 

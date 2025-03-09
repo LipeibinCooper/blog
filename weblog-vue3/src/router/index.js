@@ -39,19 +39,19 @@ const routes = [
     }
   },
   {
-    path: '/category/list', // 分类列表页
+    path: '/category/list', // 灵感列表页
     component: CategoryList,
     meta: {
       // meta 信息
-      title: '分类列表页'
+      title: '灵感列表页'
     }
   },
   {
-    path: '/category/article/list', // 分类文章页
+    path: '/category/article/list', // 灵感文章页
     component: CategoryArticleList,
     meta: {
       // meta 信息
-      title: '分类文章页'
+      title: '灵感文章页'
     }
   },
   {
@@ -130,7 +130,7 @@ const routes = [
         path: '/admin/category/list',
         component: AdminCategoryList,
         meta: {
-          title: '分类管理'
+          title: '灵感管理'
         }
       },
       {

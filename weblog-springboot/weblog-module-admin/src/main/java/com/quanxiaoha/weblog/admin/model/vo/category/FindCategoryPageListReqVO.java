@@ -16,17 +16,17 @@ import java.time.LocalDateTime;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-09-15 14:07
- * @description: 分类分页
+ * @description: 灵感分页
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value = "查询分类分页数据入参 VO")
+@ApiModel(value = "查询灵感分页数据入参 VO")
 public class FindCategoryPageListReqVO extends BasePageQuery {
 
     /**
-     * 分类名称
+     * 灵感名称
      */
     private String name;
 

@@ -41,7 +41,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     private ArticleCategoryRelMapper articleCategoryRelMapper;
 
     /**
-     * 添加分类
+     * 添加灵感
      *
      * @param addCategoryReqVO
      * @return
@@ -50,11 +50,11 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     public Response addCategory(AddCategoryReqVO addCategoryReqVO) {
         String categoryName = addCategoryReqVO.getName();
 
-        // 先判断该分类是否已经存在
+        // 先判断该灵感是否已经存在
         CategoryDO categoryDO = categoryMapper.selectByName(categoryName);
 
         if (Objects.nonNull(categoryDO)) {
-            log.warn("分类名称： {}, 此已存在", categoryName);
+            log.warn("灵感名称： {}, 此已存在", categoryName);
             throw new BizException(ResponseCodeEnum.CATEGORY_NAME_IS_EXISTED);
         }
 
@@ -70,7 +70,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     }
 
     /**
-     * 分类分页数据查询
+     * 灵感分页数据查询
      *
      * @param findCategoryPageListReqVO
      * @return
@@ -106,45 +106,45 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     }
 
     /**
-     * 删除分类
+     * 删除灵感
      *
      * @param deleteCategoryReqVO
      * @return
      */
     @Override
     public Response deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO) {
-        // 分类 ID
+        // 灵感 ID
         Long categoryId = deleteCategoryReqVO.getId();
 
-        // 校验该分类下是否已经有文章，若有，则提示需要先删除分类下所有文章，才能删除
+        // 校验该灵感下是否已经有文章，若有，则提示需要先删除灵感下所有文章，才能删除
         ArticleCategoryRelDO articleCategoryRelDO = articleCategoryRelMapper.selectOneByCategoryId(categoryId);
 
         if (Objects.nonNull(articleCategoryRelDO)) {
-            log.warn("==> 此分类下包含文章，无法删除，categoryId: {}", categoryId);
+            log.warn("==> 此灵感下包含文章，无法删除，categoryId: {}", categoryId);
             throw new BizException(ResponseCodeEnum.CATEGORY_CAN_NOT_DELETE);
         }
 
-        // 删除分类
+        // 删除灵感
         categoryMapper.deleteById(categoryId);
 
         return Response.success();
     }
 
     /**
-     * 获取文章分类的 Select 列表数据
+     * 获取文章灵感的 Select 列表数据
      *
      * @return
      */
     @Override
     public Response findCategorySelectList() {
-        // 查询所有分类
+        // 查询所有灵感
         List<CategoryDO> categoryDOS = categoryMapper.selectList(null);
 
         // DO 转 VO
         List<SelectRspVO> selectRspVOS = null;
-        // 如果分类数据不为空
+        // 如果灵感数据不为空
         if (!CollectionUtils.isEmpty(categoryDOS)) {
-            // 将分类 ID 作为 Value 值，将分类名称作为 label 展示
+            // 将灵感 ID 作为 Value 值，将灵感名称作为 label 展示
             selectRspVOS = categoryDOS.stream()
                     .map(categoryDO -> SelectRspVO.builder()
                             .label(categoryDO.getName())

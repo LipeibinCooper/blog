@@ -33,7 +33,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     private TagMapper tagMapper;
 
     /**
-     * 获取文章总数、分类总数、标签总数、总访问量统计信息
+     * 获取文章总数、灵感总数、标签总数、总访问量统计信息
      *
      * @return
      */
@@ -42,7 +42,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         // 查询文章总数
         Long articleTotalCount = articleMapper.selectCount(Wrappers.emptyWrapper());
 
-        // 查询分类总数
+        // 查询灵感总数
         Long categoryTotalCount = categoryMapper.selectCount(Wrappers.emptyWrapper());
 
         // 查询标签总数

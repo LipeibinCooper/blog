@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-04-19 16:06
- * @description: 分类
+ * @description: 灵感
  **/
 @Data
 @AllArgsConstructor

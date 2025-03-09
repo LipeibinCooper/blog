@@ -40,7 +40,7 @@ public class FindArticleDetailRspVO {
     private String content;
 
     /**
-     * 分类 ID
+     * 灵感 ID
      */
     private Long categoryId;
 

@@ -33,11 +33,11 @@ public class FindArticleDetailRspVO {
      */
     private LocalDateTime createTime;
     /**
-     * 分类 ID
+     * 灵感 ID
      */
     private Long categoryId;
     /**
-     * 分类名称
+     * 灵感名称
      */
     private String categoryName;
     /**

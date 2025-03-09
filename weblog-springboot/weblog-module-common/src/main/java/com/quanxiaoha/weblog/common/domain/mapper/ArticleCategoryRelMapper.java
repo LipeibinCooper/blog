@@ -10,7 +10,7 @@ import java.util.List;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-08-22 17:06
- * @description: 文章分类关联
+ * @description: 文章灵感关联
  **/
 public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRelDO> {
 
@@ -35,7 +35,7 @@ public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRelD
     }
 
     /**
-     * 根据分类 ID 查询
+     * 根据灵感 ID 查询
      * @param categoryId
      * @return
      */
@@ -56,7 +56,7 @@ public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRelD
     }
 
     /**
-     * 根据分类 ID 查询所有的关联记录
+     * 根据灵感 ID 查询所有的关联记录
      * @param categoryId
      * @return
      */

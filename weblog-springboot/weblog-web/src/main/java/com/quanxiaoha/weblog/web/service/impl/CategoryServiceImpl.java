@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-09-15 14:03
- * @description: 分类
+ * @description: 灵感
  **/
 @Service
 @Slf4j
@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     private ArticleMapper articleMapper;
 
     /**
-     * 获取分类列表
+     * 获取灵感列表
      *
      * @return
      */
@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<CategoryDO> categoryDOS = null;
         // 如果接口入参中未指定 size
         if (Objects.isNull(size) || size == 0) {
-            // 查询所有分类
+            // 查询所有灵感
             categoryDOS = categoryMapper.selectList(Wrappers.emptyWrapper());
         } else {
             // 否则查询指定的数量
@@ -80,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     /**
-     * 获取分类下文章分页数据
+     * 获取灵感下文章分页数据
      *
      * @param findCategoryArticlePageListReqVO
      * @return
@@ -93,18 +93,18 @@ public class CategoryServiceImpl implements CategoryService {
 
         CategoryDO categoryDO = categoryMapper.selectById(categoryId);
 
-        // 判断该分类是否存在
+        // 判断该灵感是否存在
         if (Objects.isNull(categoryDO)) {
-            log.warn("==> 该分类不存在, categoryId: {}", categoryId);
+            log.warn("==> 该灵感不存在, categoryId: {}", categoryId);
             throw new BizException(ResponseCodeEnum.CATEGORY_NOT_EXISTED);
         }
 
-        // 先查询该分类下所有关联的文章 ID
+        // 先查询该灵感下所有关联的文章 ID
         List<ArticleCategoryRelDO> articleCategoryRelDOS = articleCategoryRelMapper.selectListByCategoryId(categoryId);
 
-        // 若该分类下未发布任何文章
+        // 若该灵感下未发布任何文章
         if (CollectionUtils.isEmpty(articleCategoryRelDOS)) {
-            log.info("==> 该分类下还未发布任何文章, categoryId: {}", categoryId);
+            log.info("==> 该灵感下还未发布任何文章, categoryId: {}", categoryId);
             return PageResponse.success(null, null);
         }
 

@@ -85,10 +85,10 @@ public class ArticleServiceImpl implements ArticleService {
             // 拿到所有文章的 ID 集合
             List<Long> articleIds = articleDOS.stream().map(ArticleDO::getId).collect(Collectors.toList());
 
-            // 第二步：设置文章所属分类
-            // 查询所有分类
+            // 第二步：设置文章所属灵感
+            // 查询所有灵感
             List<CategoryDO> categoryDOS = categoryMapper.selectList(Wrappers.emptyWrapper());
-            // 转 Map, 方便后续根据分类 ID 拿到对应的分类名称
+            // 转 Map, 方便后续根据灵感 ID 拿到对应的灵感名称
             Map<Long, String> categoryIdNameMap = categoryDOS.stream().collect(Collectors.toMap(CategoryDO::getId, CategoryDO::getName));
 
             // 根据文章 ID 批量查询所有关联记录
@@ -103,7 +103,7 @@ public class ArticleServiceImpl implements ArticleService {
                 if (optional.isPresent()) {
                     ArticleCategoryRelDO articleCategoryRelDO = optional.get();
                     Long categoryId = articleCategoryRelDO.getCategoryId();
-                    // 通过分类 ID 从 map 中拿到对应的分类名称
+                    // 通过灵感 ID 从 map 中拿到对应的灵感名称
                     String categoryName = categoryIdNameMap.get(categoryId);
 
                     FindCategoryListRspVO findCategoryListRspVO = FindCategoryListRspVO.builder()
@@ -184,7 +184,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .updateTime(articleDO.getUpdateTime())
                 .build();
 
-        // 查询所属分类
+        // 查询所属灵感
         ArticleCategoryRelDO articleCategoryRelDO = articleCategoryRelMapper.selectByArticleId(articleId);
         CategoryDO categoryDO = categoryMapper.selectById(articleCategoryRelDO.getCategoryId());
         vo.setCategoryId(categoryDO.getId());

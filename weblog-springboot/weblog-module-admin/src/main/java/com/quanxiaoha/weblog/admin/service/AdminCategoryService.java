@@ -16,28 +16,28 @@ import com.quanxiaoha.weblog.common.utils.Response;
  **/
 public interface AdminCategoryService {
     /**
-     * 添加分类
+     * 添加灵感
      * @param addCategoryReqVO
      * @return
      */
     Response addCategory(AddCategoryReqVO addCategoryReqVO);
 
     /**
-     * 分类分页数据查询
+     * 灵感分页数据查询
      * @param findCategoryPageListReqVO
      * @return
      */
     PageResponse findCategoryPageList(FindCategoryPageListReqVO findCategoryPageListReqVO);
 
     /**
-     * 删除分类
+     * 删除灵感
      * @param deleteCategoryReqVO
      * @return
      */
     Response deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO);
 
     /**
-     * 获取文章分类的 Select 列表数据
+     * 获取文章灵感的 Select 列表数据
      * @return
      */
     Response findCategorySelectList();

@@ -3,7 +3,7 @@
     v-if="categories && categories.length > 0"
     class="w-full p-5 mb-3 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700"
   >
-    <!-- 分类标题 -->
+    <!-- 灵感标题 -->
     <div class="flex mb-3">
       <h2
         class="flex items-center font-bold text-gray-900 uppercase dark:text-white"
@@ -45,7 +45,7 @@
             p-id="21577"
           ></path>
         </svg>
-        分类
+        灵感
       </h2>
       <span class="grow"></span>
 
@@ -72,48 +72,64 @@
       </a>
     </div>
 
-    <!-- 分类列表 -->
-    <div
-      class="text-sm flex flex-wrap gap-3 font-medium text-gray-600 rounded-lg dark:border-gray-600 dark:text-white"
-    >
-      <a
-        @click="goCategoryArticleListPage(category.id, category.name)"
+    <!-- 灵感列表 - GitHub风格 -->
+    <div class="text-sm font-medium text-gray-600 dark:text-white">
+      <div
         v-for="(category, index) in categories"
         :key="index"
-        class="cursor-pointer inline-flex items-center px-3 py-1.5 text-xs font-medium text-center border rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700 dark:hover:text-white"
+        class="border-b border-gray-200 dark:border-gray-700 last:border-b-0"
       >
-        {{ category.name }}
-        <span
-          class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-sky-800 bg-sky-200 rounded-full"
+        <a
+          @click="goCategoryArticleListPage(category.id, category.name)"
+          class="cursor-pointer flex items-center justify-between py-3 px-1 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
         >
-          {{ category.articlesTotal }}
-        </span>
-      </a>
+          <div class="flex items-center">
+            <!-- 文件夹图标 -->
+            <svg
+              class="w-4 h-4 mr-2 text-gray-500"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M19.5 2h-15A2.5 2.5 0 0 0 2 4.5v11A2.5 2.5 0 0 0 4.5 18h15a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 19.5 2ZM11 6h5v2h-5V6Zm-5 6a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm9 4H4.5a.5.5 0 0 1-.5-.5V14c0-1.1.9-2 2-2h1a5 5 0 0 0 5 0h1c1.1 0 2 .9 2 2v1.5a.5.5 0 0 1-.5.5Z"
+              />
+            </svg>
+            <span>{{ category.name }}</span>
+          </div>
+          <span
+            class="inline-flex items-center justify-center px-2 py-1 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300"
+          >
+            {{ category.articlesTotal }}
+          </span>
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { getCategoryList } from "@/api/frontend/category";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { getCategoryList } from '@/api/frontend/category'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
-// 跳转分类文章列表页
+// 跳转灵感文章列表页
 const goCategoryArticleListPage = (id, name) => {
-  // 跳转时通过 query 携带参数（分类 ID、分类名称）
-  router.push({ path: "/category/article/list", query: { id, name } });
-};
+  // 跳转时通过 query 携带参数（灵感 ID、灵感名称）
+  router.push({ path: '/category/article/list', query: { id, name } })
+}
 
-// 所有分类
-const categories = ref([]);
-// 一次显示的分类数
+// 所有灵感
+const categories = ref([])
+// 一次显示的灵感数
 const size = ref(10)
 
-getCategoryList({ size: size.value }).then((res) => {
-    if (res.success) {
-        categories.value = res.data
-    }
+getCategoryList({ size: size.value }).then(res => {
+  if (res.success) {
+    categories.value = res.data
+  }
 })
 </script>

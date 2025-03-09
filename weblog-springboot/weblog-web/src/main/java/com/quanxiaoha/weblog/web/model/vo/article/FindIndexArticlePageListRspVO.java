@@ -27,7 +27,7 @@ public class FindIndexArticlePageListRspVO {
     private LocalDate createDate;
     private String summary;
     /**
-     * 文章分类
+     * 文章灵感
      */
     private FindCategoryListRspVO category;
 

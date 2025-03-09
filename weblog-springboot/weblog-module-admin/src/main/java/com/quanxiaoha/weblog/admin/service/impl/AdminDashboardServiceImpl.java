@@ -55,7 +55,7 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
         // 查询文章总数
         Long articleTotalCount = articleMapper.selectCount(Wrappers.emptyWrapper());
 
-        // 查询分类总数
+        // 查询灵感总数
         Long categoryTotalCount = categoryMapper.selectCount(Wrappers.emptyWrapper());
 
         // 查询标签总数

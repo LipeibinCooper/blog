@@ -23,8 +23,8 @@ public class StatisticsCategoryArticleTotalRunner implements CommandLineRunner {
     @Override
     @Async("threadPoolTaskExecutor")
     public void run(String... args) throws Exception {
-        log.info("==> 开始统计各分类下文章数量...");
+        log.info("==> 开始统计各灵感下文章数量...");
         statisticsService.statisticsCategoryArticleTotal();
-        log.info("==> 结束统计各分类下文章数量...");
+        log.info("==> 结束统计各灵感下文章数量...");
     }
 }

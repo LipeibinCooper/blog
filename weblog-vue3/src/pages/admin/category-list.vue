@@ -4,7 +4,7 @@
     <el-card shadow="never" class="mb-5">
       <!-- flex 布局，内容垂直居中 -->
       <div class="flex items-center">
-        <el-text>分类名称</el-text>
+        <el-text>灵感名称</el-text>
         <div class="ml-3 w-52 mr-5">
           <el-input
             v-model="searchCategoryName"
@@ -59,7 +59,7 @@
         style="width: 100%"
         v-loading="tableLoading"
       >
-        <el-table-column prop="name" label="分类名称" width="180" />
+        <el-table-column prop="name" label="灵感名称" width="180" />
         <el-table-column prop="articlesTotal" label="文章数" width="100" />
         <el-table-column prop="createTime" label="创建时间" width="180" />
         <el-table-column label="操作">
@@ -94,23 +94,23 @@
       </div>
     </el-card>
 
-    <!-- 添加分类 -->
+    <!-- 添加灵感 -->
     <FormDialog
       ref="formDialogRef"
-      title="添加文章分类"
+      title="添加文章灵感"
       destroyOnClose
       @submit="onSubmit"
     >
       <el-form ref="formRef" :rules="rules" :model="form">
         <el-form-item
-          label="分类名称"
+          label="灵感名称"
           prop="name"
           label-width="80px"
           size="large"
         >
           <el-input
             v-model="form.name"
-            placeholder="请输入分类名称"
+            placeholder="请输入灵感名称"
             maxlength="20"
             show-word-limit
             clearable
@@ -122,79 +122,79 @@
 </template>
 
 <script setup>
-import { Search, RefreshRight } from "@element-plus/icons-vue";
-import { ref, reactive } from "vue";
+import { Search, RefreshRight } from '@element-plus/icons-vue'
+import { ref, reactive } from 'vue'
 import {
   getCategoryPageList,
   addCategory,
-  deleteCategory,
-} from "@/api/admin/category";
-import moment from "moment";
-import { showMessage, showModel } from "@/composables/util";
-import FormDialog from "@/components/FormDialog.vue";
+  deleteCategory
+} from '@/api/admin/category'
+import moment from 'moment'
+import { showMessage, showModel } from '@/composables/util'
+import FormDialog from '@/components/FormDialog.vue'
 
-// 分页查询的分类名称
-const searchCategoryName = ref("");
+// 分页查询的灵感名称
+const searchCategoryName = ref('')
 // 日期
-const pickDate = ref("");
+const pickDate = ref('')
 
 // 查询条件：开始结束时间
-const startDate = reactive({});
-const endDate = reactive({});
+const startDate = reactive({})
+const endDate = reactive({})
 
 // 监听日期组件改变事件，并将开始结束时间设置到变量中
-const datepickerChange = (e) => {
-  startDate.value = moment(e[0]).format("YYYY-MM-DD");
-  endDate.value = moment(e[1]).format("YYYY-MM-DD");
+const datepickerChange = e => {
+  startDate.value = moment(e[0]).format('YYYY-MM-DD')
+  endDate.value = moment(e[1]).format('YYYY-MM-DD')
 
-  console.log("开始时间：" + startDate.value + ", 结束时间：" + endDate.value);
-};
+  console.log('开始时间：' + startDate.value + ', 结束时间：' + endDate.value)
+}
 
 const shortcuts = [
   {
-    text: "最近一周",
+    text: '最近一周',
     value: () => {
-      const end = new Date();
-      const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-      return [start, end];
-    },
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      return [start, end]
+    }
   },
   {
-    text: "最近一个月",
+    text: '最近一个月',
     value: () => {
-      const end = new Date();
-      const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-      return [start, end];
-    },
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      return [start, end]
+    }
   },
   {
-    text: "最近三个月",
+    text: '最近三个月',
     value: () => {
-      const end = new Date();
-      const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-      return [start, end];
-    },
-  },
-];
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+      return [start, end]
+    }
+  }
+]
 
 // 表格加载 Loading
-const tableLoading = ref(false);
+const tableLoading = ref(false)
 // 表格数据
-const tableData = ref([]);
+const tableData = ref([])
 // 当前页码，给了一个默认值 1
-const current = ref(1);
+const current = ref(1)
 // 总数据量，给了个默认值 0
-const total = ref(0);
+const total = ref(0)
 // 每页显示的数据量，给了个默认值 10
-const size = ref(10);
+const size = ref(10)
 
 // 获取分页数据
-function getTableData() {
+function getTableData () {
   // 显示表格 loading
-  tableLoading.value = true;
+  tableLoading.value = true
   // 调用后台分页接口，并传入所需参数
 
   getCategoryPageList({
@@ -202,119 +202,119 @@ function getTableData() {
     size: size.value,
     startDate: startDate.value,
     endDate: endDate.value,
-    name: searchCategoryName.value,
+    name: searchCategoryName.value
   })
-    .then((res) => {
+    .then(res => {
       if (res.success == true) {
-        tableData.value = res.data;
-        current.value = res.current;
-        size.value = res.size;
-        total.value = res.total;
+        tableData.value = res.data
+        current.value = res.current
+        size.value = res.size
+        total.value = res.total
       }
     })
-    .finally(() => (tableLoading.value = false)); // 隐藏表格 loading
+    .finally(() => (tableLoading.value = false)) // 隐藏表格 loading
 }
-getTableData();
+getTableData()
 
 // 每页展示数量变更事件
-const handleSizeChange = (chooseSize) => {
-  console.log("选择的页码" + chooseSize);
-  size.value = chooseSize;
-  getTableData();
-};
+const handleSizeChange = chooseSize => {
+  console.log('选择的页码' + chooseSize)
+  size.value = chooseSize
+  getTableData()
+}
 
 // 重置查询条件
 const reset = () => {
-  searchCategoryName.value = "";
-  pickDate.value = "";
-  startDate.value = null;
-  endDate.value = null;
-};
+  searchCategoryName.value = ''
+  pickDate.value = ''
+  startDate.value = null
+  endDate.value = null
+}
 
 // 对话框是否显示
-const formDialogRef = ref(null);
+const formDialogRef = ref(null)
 
-// 新增分类按钮点击事件
+// 新增灵感按钮点击事件
 const addCategoryBtnClick = () => {
-  formDialogRef.value.open();
-};
+  formDialogRef.value.open()
+}
 
 // 表单引用
-const formRef = ref(null);
+const formRef = ref(null)
 
-// 添加文章分类表单对象
+// 添加文章灵感表单对象
 const form = reactive({
-  name: "",
-});
+  name: ''
+})
 
 // 规则校验
 const rules = {
   name: [
     {
       required: true,
-      message: "分类名称不能为空",
-      trigger: "blur",
+      message: '灵感名称不能为空',
+      trigger: 'blur'
     },
     {
       min: 1,
       max: 20,
-      message: "分类名称字数要求大于 1 个字符，小于 20 个字符",
-      trigger: "blur",
-    },
-  ],
-};
+      message: '灵感名称字数要求大于 1 个字符，小于 20 个字符',
+      trigger: 'blur'
+    }
+  ]
+}
 
 const onSubmit = () => {
   // 先验证 form 表单字段
-  formRef.value.validate((valid) => {
+  formRef.value.validate(valid => {
     if (!valid) {
-      console.log("表单验证不通过");
-      return false;
+      console.log('表单验证不通过')
+      return false
     }
 
     // 显示提交按钮 loading
-    formDialogRef.value.showBtnLoading();
+    formDialogRef.value.showBtnLoading()
     addCategory(form)
-      .then((res) => {
+      .then(res => {
         if (res.success == true) {
-          showMessage("添加成功");
-          // 将表单中分类名称置空
-          form.name = "";
+          showMessage('添加成功')
+          // 将表单中灵感名称置空
+          form.name = ''
           // 隐藏对话框
-          formDialogRef.value.close();
+          formDialogRef.value.close()
           // 重新请求分页接口，渲染数据
-          getTableData();
+          getTableData()
         } else {
           // 获取服务端返回的错误消息
-          let message = res.message;
+          let message = res.message
           // 提示错误消息
-          showMessage(message, "error");
+          showMessage(message, 'error')
         }
       })
-      .finally(() => formDialogRef.value.closeBtnLoading()); // 隐藏提交按钮 loading
-  });
-};
+      .finally(() => formDialogRef.value.closeBtnLoading()) // 隐藏提交按钮 loading
+  })
+}
 
-// 删除分类
-const deleteCategorySubmit = (row) => {
-  console.log(row);
-  showModel("是否确定要删除该分类？")
+// 删除灵感
+const deleteCategorySubmit = row => {
+  console.log(row)
+  showModel('是否确定要删除该灵感？')
     .then(() => {
-      deleteCategory(row.id).then((res) => {
+      deleteCategory(row.id).then(res => {
         if (res.success == true) {
-          showMessage("删除成功");
+          showMessage('删除成功')
           // 重新请求分页接口，渲染数据
-          getTableData();
+          getTableData()
         } else {
           // 获取服务端返回的错误消息
-          let message = res.message;
+          let message = res.message
           // 提示错误消息
-          showMessage(message, "error");
+          showMessage(message, 'error')
         }
-      });
+      })
     })
     .catch(() => {
-      console.log("取消了");
-    });
-};
+      console.log('取消了')
+    })
+}
 </script>

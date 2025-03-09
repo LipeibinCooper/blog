@@ -8,7 +8,7 @@ import com.quanxiaoha.weblog.web.model.vo.tag.FindTagListReqVO;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-09-15 14:03
- * @description: 分类
+ * @description: 灵感
  **/
 public interface TagService {
     /**
