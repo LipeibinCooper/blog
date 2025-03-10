@@ -107,7 +107,7 @@
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>
-            <span class="mr-3">搜索文章 ...</span>
+            <span class="mr-3">搜索灵感节点 ...</span>
             <span
               class="px-2 py-[1px] flex-none text-xs border text-gray-400 rounded dark:border-gray-600"
               >Ctrl K</span
@@ -247,7 +247,7 @@
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>
-            <span class="mr-3 grow text-left">搜索文章 ...</span>
+            <span class="mr-3 grow text-left">搜索灵感节点 ...</span>
             <span
               class="px-2 py-[1px] flex-none text-xs border text-gray-400 rounded dark:border-gray-600"
               >Ctrl K</span

@@ -123,7 +123,7 @@ const routes = [
         path: '/admin/article/list',
         component: AdminArticleList,
         meta: {
-          title: '文章管理'
+          title: '灵感节点管理'
         }
       },
       {

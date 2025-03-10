@@ -457,7 +457,7 @@ getWikiCatalogs(route.params.wikiId).then(res => {
 // 是否为暗黑模式
 const isDark = useDark({ disableTransition: false })
 
-// 文章数据
+// 灵感节点数据
 const article = ref({})
 // 上下页
 const preNext = ref(null)

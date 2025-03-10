@@ -2,7 +2,7 @@
   <main class="container p-4">
     <!-- grid 表格布局，分为 4 列 -->
     <div class="grid grid-cols-4 gap-7">
-      <!-- 文章数 -->
+      <!-- 灵感节点数 -->
       <div class="col-span-4 md:col-span-1">
         <!-- 卡片 -->
         <div

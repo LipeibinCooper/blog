@@ -94,7 +94,7 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
         // 当前日期倒退一年的日期
         LocalDate startDate = currDate.minusYears(1);
 
-        // 查找这一年内，每日发布的文章数量
+        // 查找这一年内，每日发布的灵感节点数量
         List<ArticlePublishCountDO> articlePublishCountDOS = articleMapper.selectDateArticlePublishCount(startDate, currDate);
 
         Map<LocalDate, Long> map = null;
@@ -103,7 +103,7 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
             Map<LocalDate, Long> dateArticleCountMap = articlePublishCountDOS.stream()
                     .collect(Collectors.toMap(ArticlePublishCountDO::getDate, ArticlePublishCountDO::getCount));
 
-            // 有序 Map, 返回的日期文章数需要以升序排列
+            // 有序 Map, 返回的日期灵感节点数需要以升序排列
             map = Maps.newLinkedHashMap();
             // 从上一年的今天循环到今天
             for (; startDate.isBefore(currDate) || startDate.isEqual(currDate); startDate = startDate.plusDays(1)) {

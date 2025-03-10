@@ -763,9 +763,9 @@ watch(route, (newRoute, oldRoute) => {
 
 // 当前页码
 const current = ref(1)
-// 每页显示的文章数
+// 每页显示的灵感节点数
 const size = ref(4)
-// 总文章数
+// 总灵感节点数
 const total = ref(0)
 // 总共多少页
 const pages = ref(0)

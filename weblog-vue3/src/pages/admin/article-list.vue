@@ -41,13 +41,13 @@
     </el-card>
 
     <el-card shadow="never">
-      <!-- 写文章按钮 -->
+      <!-- 创建灵感节点按钮 -->
       <div class="mb-5">
         <el-button type="primary" @click="isArticlePublishEditorShow = true">
           <el-icon class="mr-1">
             <EditPen />
           </el-icon>
-          写文章</el-button
+          创建灵感节点</el-button
         >
       </div>
 
@@ -135,7 +135,7 @@
           <!-- 指定 flex 布局， 高度为 10， 背景色为白色 -->
           <div class="flex h-10 bg-white">
             <!-- 字体加粗 -->
-            <h4 class="font-bold">写文章</h4>
+            <h4 class="font-bold">创建灵感节点</h4>
             <!-- 靠右对齐 -->
             <div class="ml-auto flex">
               <el-button @click="isArticlePublishEditorShow = false"

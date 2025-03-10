@@ -392,7 +392,7 @@ const router = useRouter()
 // 路由传递过来的文章 ID
 console.log(route.params.articleId)
 
-// 文章数据
+// 灵感节点数据
 const article = ref({})
 
 let copyCodeBtn =

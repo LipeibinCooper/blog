@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <Header></Header>
-
+  <FrontendLayout>
     <!-- 主内容区域 -->
     <main class="container max-w-screen-xl mx-auto p-4">
       <!-- grid 表格布局，分为 4 列 -->
@@ -214,14 +212,11 @@
 
     <!-- 返回顶部 -->
     <ScrollToTopButton></ScrollToTopButton>
-
-    <Footer></Footer>
-  </div>
+  </FrontendLayout>
 </template>
 
 <script setup>
-import Header from '@/layouts/frontend/components/Header.vue'
-import Footer from '@/layouts/frontend/components/Footer.vue'
+import FrontendLayout from '@/layouts/frontend/FrontendLayout.vue'
 import UserInfoCard from '@/layouts/frontend/components/UserInfoCard.vue'
 import CategoryListCard from '@/layouts/frontend/components/CategoryListCard.vue'
 import ScrollToTopButton from '@/layouts/frontend/components/ScrollToTopButton.vue'
@@ -247,9 +242,9 @@ onMounted(() => {
 const articles = ref([])
 // 当前页码
 const current = ref(1)
-// 每页显示的文章数
+// 每页显示的灵感节点数
 const size = ref(4)
-// 总文章数
+// 总灵感节点数
 const total = ref(0)
 // 总共多少页
 const pages = ref(0)
