@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <!-- 标签文章列表 -->
+        <!-- 标签灵感节点列表 -->
         <div
           class="p-5 mb-4 border border-gray-200 rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700"
         >
@@ -120,7 +120,7 @@
             </li>
           </ol>
 
-          <!-- 该标签下没有文章提示，指定为 flex 布局，内容垂直水平居中，并纵向排列  -->
+          <!-- 该标签下没有灵感节点提示，指定为 flex 布局，内容垂直水平居中，并纵向排列  -->
           <div v-else class="flex items-center justify-center flex-col">
             <svg
               height="300"
@@ -630,7 +630,7 @@
                 target-y="423"
               />
             </svg>
-            <p class="mt-2 mb-16 text-gray-400">此标签下还未发布文章哟~</p>
+            <p class="mt-2 mb-16 text-gray-400">此标签下还未发布灵感节点哟~</p>
           </div>
         </div>
 
@@ -747,7 +747,7 @@ import { getTagArticlePageList, getTagList } from '@/api/frontend/tag'
 const route = useRoute()
 const router = useRouter()
 
-// 文章集合
+// 灵感节点集合
 const articles = ref([])
 // 标签名称
 const tagName = ref(route.query.name)
@@ -790,7 +790,7 @@ function getTagArticles (currentNo) {
 }
 getTagArticles(current.value)
 
-// 跳转文章详情页
+// 跳转灵感节点详情页
 const goArticleDetailPage = articleId => {
   router.push('/article/' + articleId)
 }
@@ -803,7 +803,7 @@ getTagList({}).then(res => {
   }
 })
 
-// 跳转标签文章列表页
+// 跳转标签灵感节点列表页
 const goTagArticleListPage = (id, name) => {
   // 跳转时通过 query 携带参数（标签 ID、标签名称）
   router.push({ path: '/tag/article/list', query: { id, name } })

@@ -20,14 +20,11 @@
           <!-- 博客 LOGO 、博客名称 -->
           <a href="/" class="flex items-center">
             <img
-              :src="blogSettingsStore.blogSettings.logo"
-              class="h-8 mr-3 rounded-full"
-              alt="Weblog Logo"
+              src="@/assets/weblog-logo.png"
+              class="h-16 mr-3"
+              alt="灵感博客 Logo"
             />
-            <span
-              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-gray-400"
-              >{{ blogSettingsStore.blogSettings.name }}</span
-            >
+            <!-- 移除博客名称文字，只使用图片 -->
           </a>
         </div>
 
@@ -170,9 +167,9 @@
           >
             <!-- 用户登录头像 -->
             <img
-              class="w-8 h-8 rounded-full"
-              :src="blogSettingsStore.blogSettings.avatar"
-              alt="user photo"
+              class="w-8 h-8"
+              src="@/assets/admin-avatar.png"
+              alt="管理员头像"
             />
           </button>
 
@@ -535,7 +532,7 @@
             <p
               class="text-base leading-relaxed text-gray-500 dark:text-gray-400"
             >
-              共搜索到 {{ total }} 篇相关文章
+              共搜索到 {{ total }} 篇相关灵感节点
             </p>
             <ol class="mt-3 divide-y divider-gray-200 dark:divide-gray-600">
               <li v-for="(article, index) in searchArticles" :key="index">
@@ -1159,7 +1156,7 @@ const clickSearchBtn = () => {
   searchInputRef.value.focus()
 }
 
-// 文章搜索结果
+// 灵感节点搜索结果
 const searchArticles = ref([])
 // 当前页码，给了一个默认值 1
 const current = ref(1)
@@ -1227,7 +1224,7 @@ const prePage = () => {
   })
 }
 
-// 点击搜索结果，跳转文章详情页
+// 点击搜索结果，跳转灵感节点详情页
 const jumpToArticleDetailPage = articleId => {
   // 隐藏搜索对话框
   searchModal.value.hide()
@@ -1251,7 +1248,7 @@ watch(isDrawerExpand, (newText, oldText) => {
   }
 })
 
-// 跳转文章详情页
+// 跳转灵感节点详情页
 const goWikiArticleDetailPage = articleId => {
   isDrawerExpand.value = false
   router.push({ path: '/wiki/' + route.params.wikiId, query: { articleId } })

@@ -98,7 +98,7 @@
     <!-- 添加标签 -->
     <FormDialog
       ref="formDialogRef"
-      title="添加文章标签"
+      title="添加灵感节点标签"
       destroyOnClose
       @submit="onSubmit"
     >
@@ -256,7 +256,7 @@ const addCategoryBtnClick = () => {
 // 表单引用
 const formRef = ref(null)
 
-// 添加文章灵感表单对象
+// 添加灵感节点灵感表单对象
 const form = reactive({
   tags: []
 })

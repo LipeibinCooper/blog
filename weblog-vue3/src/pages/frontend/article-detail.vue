@@ -1,7 +1,7 @@
 <template>
   <Header></Header>
 
-  <!-- 文章标题、标签、Meta 信息 -->
+  <!-- 灵感节点标题、标签、Meta 信息 -->
   <div class="bg-white dark:bg-gray-900">
     <div
       class="max-w-screen-xl flex flex-col flex-wrap mx-auto px-4 md:px-6 pb-5 pt-10"
@@ -18,7 +18,7 @@
         </span>
       </div>
 
-      <!-- 文章标题 -->
+      <!-- 灵感节点标题 -->
       <h1 class="font-bold text-4xl md:text-5xl mb-8 dark:text-white">
         {{ article.title }}
       </h1>
@@ -50,7 +50,7 @@
             </svg>
             {{ article.totalWords }}
           </div>
-          <!-- 文章字数 Tooltip -->
+          <!-- 灵感节点字数 Tooltip -->
           <div
             id="word-tooltip-bottom"
             role="tooltip"
@@ -222,11 +222,11 @@
     <div class="grid grid-cols-4 gap-7">
       <!-- 左边栏，占用 3 列 -->
       <div class="col-span-4 md:col-span-3 mb-3">
-        <!-- 文章卡片父容器 -->
+        <!-- 灵感节点卡片父容器 -->
         <div
           class="w-full p-5 mb-3 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700"
         >
-          <!-- 文章 -->
+          <!-- 灵感节点 -->
           <article>
             <!-- 正文 -->
             <div :class="{ dark: isDark }">
@@ -355,7 +355,7 @@
           <TagListCard></TagListCard>
         </div>
 
-        <!-- 文章目录 -->
+        <!-- 灵感节点目录 -->
         <Toc></Toc>
       </aside>
     </div>
@@ -389,7 +389,7 @@ const isDark = useDark({ disableTransition: false })
 
 const route = useRoute()
 const router = useRouter()
-// 路由传递过来的文章 ID
+// 路由传递过来的灵感节点 ID
 console.log(route.params.articleId)
 
 // 灵感节点数据
@@ -398,10 +398,10 @@ const article = ref({})
 let copyCodeBtn =
   '<button class="hidden copy-code-btn flex items-center justify-center"><div class="copy-icon"></div></button>'
 
-// 获取文章详情
+// 获取灵感节点详情
 function refreshArticleDetail (articleId) {
   getArticleDetail(route.params.articleId).then(res => {
-    // 该文章不存在(错误码为 20010)
+    // 该灵感节点不存在(错误码为 20010)
     if (!res.success && res.errorCode == '20010') {
       // 手动跳转 404 页面
       router.push({ name: 'NotFound' })
@@ -476,13 +476,13 @@ function refreshArticleDetail (articleId) {
 }
 refreshArticleDetail(route.params.articleId)
 
-// 跳转灵感文章列表页
+// 跳转灵感灵感节点列表页
 const goCategoryArticleListPage = (id, name) => {
   // 跳转时通过 query 携带参数（灵感 ID、灵感名称）
   router.push({ path: '/category/article/list', query: { id, name } })
 }
 
-// 跳转标签文章列表页
+// 跳转标签灵感节点列表页
 const goTagArticleListPage = (id, name) => {
   // 跳转时通过 query 携带参数（标签 ID、标签名称）
   router.push({ path: '/tag/article/list', query: { id, name } })
@@ -490,7 +490,7 @@ const goTagArticleListPage = (id, name) => {
 
 // 监听路由
 watch(route, (newRoute, oldRoute) => {
-  // 重新渲染文章详情
+  // 重新渲染灵感节点详情
   refreshArticleDetail(newRoute.params.articleId)
 })
 

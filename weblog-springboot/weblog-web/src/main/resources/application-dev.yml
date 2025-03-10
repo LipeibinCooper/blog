@@ -21,8 +21,8 @@ spring:
 #=================================================================
 minio:
   endpoint: http://localhost:9000
-  accessKey: minioadmin
-  secretKey: minioadmin
+  accessKey: kzu6hCu7kYjHB9LANELj
+  secretKey: Od7KpQcLCKXELjtpinunV6GvYagTjOGi7WUsbYy8
   bucketName: weblog
 
 #=================================================================

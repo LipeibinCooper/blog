@@ -5,10 +5,7 @@
     <div class="flex flex-col items-center">
       <!-- 博主头像 -->
       <div class="relative mb-4">
-        <img
-          class="w-14 h-14 rounded-full shadow"
-          :src="blogSettingsStore.blogSettings.avatar"
-        />
+        <img class="w-14 h-14 shadow" src="@/assets/admin-avatar.png" />
         <span
           class="bottom-0 left-10 absolute w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"
         ></span>
@@ -44,7 +41,7 @@
             :value="statisticsInfo.articleTotalCount"
             customClass="text-lg font-bold"
           ></CountTo>
-          <div class="text-sm">文章</div>
+          <div class="text-sm">灵感节点</div>
         </div>
         <div
           @click="router.push('/category/list')"
@@ -241,7 +238,7 @@ const jump = url => {
   window.open(url, '_blank')
 }
 
-// 统计信息(文章、灵感、标签数量、总访问量)
+// 统计信息(灵感节点、灵感、标签数量、总访问量)
 const statisticsInfo = ref({})
 getStatisticsInfo().then(res => {
   if (res.success) {

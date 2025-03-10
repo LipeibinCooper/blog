@@ -14,7 +14,6 @@
     <groupId>com.example</groupId>
     <artifactId>weblog-springboot</artifactId>
     <version>${revision}</version>
-    <n>weblog-springboot</n>
     <!-- 项目描述 -->
     <description>前后端分离博客 灵感博客</description>
 
@@ -23,16 +22,16 @@
 
     <!-- 子模块管理 -->
     <modules>
-        <!-- 入口模块 -->
-        <module>weblog-web</module>
-        <!-- 管理后台 -->
-        <module>weblog-module-admin</module>
         <!-- 通用模块 -->
         <module>weblog-module-common</module>
         <!-- JWT 模块 -->
         <module>weblog-module-jwt</module>
         <!-- 站内搜索模块 -->
         <module>weblog-module-search</module>
+        <!-- 管理后台 -->
+        <module>weblog-module-admin</module>
+        <!-- 入口模块 -->
+        <module>weblog-web</module>
     </modules>
 
 

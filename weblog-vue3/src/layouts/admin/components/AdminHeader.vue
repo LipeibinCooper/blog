@@ -2,13 +2,13 @@
   <!-- 固钉组件，通过设置 offset 属性来改变吸顶距离，默认值为 0。 -->
   <el-affix :offset="0">
     <!-- 设置背景色为白色、高度为 64px，padding-right 为 4， border-bottom 为 slate 100 -->
-    <div class="bg-white h-[64px] flex pr-4 border-b border-slate-100">
+    <div class="bg-white h-[64px] flex pr-4 header-container">
       <!-- 左边栏收缩、展开 -->
       <div
-        class="w-[42px] h-[64px] cursor-pointer flex items-center justify-center text-gray-700 hover:bg-gray-200"
+        class="w-[42px] h-[64px] cursor-pointer flex items-center justify-center text-gray-500 hover:text-gray-800 transition-all duration-200"
         @click="handleMenuWidth"
       >
-        <el-icon>
+        <el-icon class="text-lg">
           <Fold v-if="menuStore.menuWidth == '250px'" />
           <Expand v-else />
         </el-icon>
@@ -24,10 +24,10 @@
           placement="bottom"
         >
           <div
-            class="w-[42px] h-[64px] cursor-pointer flex items-center justify-center text-gray-700 hover:bg-gray-200"
+            class="w-[42px] h-[64px] cursor-pointer flex items-center justify-center text-gray-500 hover:text-gray-800 transition-all duration-200"
             @click="handleRefresh"
           >
-            <el-icon>
+            <el-icon class="text-lg">
               <Refresh />
             </el-icon>
           </div>
@@ -41,10 +41,10 @@
           placement="bottom"
         >
           <div
-            class="w-[42px] h-[64px] cursor-pointer flex items-center justify-center text-gray-700 hover:bg-gray-200"
+            class="w-[42px] h-[64px] cursor-pointer flex items-center justify-center text-gray-500 hover:text-gray-800 transition-all duration-200"
             @click="router.push('/')"
           >
-            <el-icon>
+            <el-icon class="text-lg">
               <Monitor />
             </el-icon>
           </div>
@@ -58,10 +58,10 @@
           placement="bottom"
         >
           <div
-            class="w-[42px] h-[64px] cursor-pointer flex items-center justify-center text-gray-700 mr-2 hover:bg-gray-200"
+            class="w-[42px] h-[64px] cursor-pointer flex items-center justify-center text-gray-500 mr-2 hover:text-gray-800 transition-all duration-200"
             @click="toggle"
           >
-            <el-icon>
+            <el-icon class="text-lg">
               <FullScreen v-if="!isFullscreen" />
               <Aim v-else />
             </el-icon>
@@ -74,12 +74,12 @@
           @command="handleCommand"
         >
           <span
-            class="el-dropdown-link flex items-center justify-center text-gray-700 text-xs"
+            class="el-dropdown-link flex items-center justify-center text-gray-700 text-sm px-3 py-2 rounded-full hover:bg-gray-50 transition-all duration-200"
           >
             <!-- 头像 Avatar -->
             <el-avatar
               class="mr-2"
-              :size="25"
+              :size="28"
               src="https://example.com/avatar.jpg"
             />
             {{ userStore.userInfo.username }}

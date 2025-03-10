@@ -9,6 +9,12 @@ spring:
     default-encoding: utf-8
     protocol: smtps
     port: 465
+  mvc:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: "*"
+      allowed-headers: "*"
+      allow-credentials: true
     
 jwt:
   # 签发人

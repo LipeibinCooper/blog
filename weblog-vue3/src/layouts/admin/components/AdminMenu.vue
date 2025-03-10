@@ -1,16 +1,20 @@
 <template>
   <div
-    class="fixed overflow-y-auto bg-slate-800 h-screen text-white menu-container transition-all duration-300 shadow-2xl"
+    class="fixed overflow-y-auto menu-container transition-all duration-300"
     :style="{ width: menuStore.menuWidth }"
   >
     <!-- 顶部 Logo, 指定高度为 64px, 和右边的 Header 头保持一样高 -->
-    <div class="flex items-center justify-center h-[64px]">
+    <div class="flex items-center justify-center h-[64px] logo-container">
       <img
         v-if="menuStore.menuWidth == '250px'"
         src="@/assets/weblog-logo.png"
-        class="h-[60px]"
+        class="h-[40px] transition-all duration-300"
       />
-      <img v-else src="@/assets/weblog-logo-mini.png" class="h-[60px]" />
+      <img
+        v-else
+        src="@/assets/weblog-logo-mini.png"
+        class="h-[40px] transition-all duration-300"
+      />
     </div>
 
     <!-- 下方菜单 -->
@@ -19,16 +23,20 @@
       @select="handleSelect"
       :collapse="isCollapse"
       :collapse-transition="false"
+      class="menu-list"
     >
-      <template v-for="(item, index) in menus" :key="index">
-        <el-menu-item :index="item.path">
-          <el-icon>
-            <!-- 动态图标 -->
-            <component :is="item.icon"></component>
-          </el-icon>
-          <span>{{ item.name }}</span>
-        </el-menu-item>
-      </template>
+      <el-menu-item
+        v-for="(item, index) in menus"
+        :key="index"
+        :index="item.path"
+        class="menu-item"
+      >
+        <el-icon class="menu-icon">
+          <!-- 动态图标 -->
+          <component :is="item.icon"></component>
+        </el-icon>
+        <span class="menu-text">{{ item.name }}</span>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -94,39 +102,80 @@ const menus = [
 </script>
 
 <style>
+.menu-container {
+  background: #ffffff;
+  color: #333;
+  height: 100vh;
+  z-index: 1000;
+  border-right: 1px solid #f0f0f0;
+}
+
+.logo-container {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-list {
+  background: transparent;
+  border-right: 0;
+  margin-top: 10px;
+}
+
+.menu-item {
+  margin: 5px 10px;
+  border-radius: 8px;
+  height: 50px;
+  line-height: 50px;
+  transition: all 0.3s;
+}
+
+.menu-icon {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #666;
+}
+
+.menu-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
 .el-menu {
-  background-color: rgb(30 41 59 / 1);
+  background-color: transparent;
   border-right: 0;
 }
 
 .el-sub-menu__title {
-  color: #fff;
+  color: #333;
 }
 
 .el-sub-menu__title:hover {
-  background-color: #ffffff10;
+  background-color: #f5f7fa;
+  border-radius: 8px;
 }
 
 .el-menu-item.is-active {
-  background-color: #409eff10;
-  color: #fff;
+  background-color: #f0f7ff;
+  color: var(--el-color-primary);
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.el-menu-item.is-active .menu-icon {
+  color: var(--el-color-primary);
 }
 
 .el-menu-item.is-active:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 2px;
-  height: 100%;
-  background-color: var(--el-color-primary);
+  display: none;
 }
 
 .el-menu-item {
-  color: #fff;
+  color: #333;
 }
 
 .el-menu-item:hover {
-  background-color: #ffffff10;
+  background-color: #f5f7fa;
+  color: #333;
+  border-radius: 8px;
 }
 </style>

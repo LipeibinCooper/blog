@@ -4,7 +4,7 @@
     <el-card shadow="never" class="mb-5">
       <!-- flex 布局，内容垂直居中 -->
       <div class="flex items-center">
-        <el-text>文章标题</el-text>
+        <el-text>灵感节点标题</el-text>
         <div class="ml-3 w-52 mr-5">
           <el-input
             v-model="searchArticleTitle"
@@ -197,7 +197,7 @@
             v-model="form.summary"
             :rows="3"
             type="textarea"
-            placeholder="请输入文章摘要"
+            placeholder="请输入灵感节点摘要"
           />
         </el-form-item>
         <el-form-item label="灵感" prop="categoryId">
@@ -224,7 +224,7 @@
               filterable
               remote
               reserve-keyword
-              placeholder="请输入文章标签"
+              placeholder="请输入灵感节点标签"
               remote-show-suffix
               allow-create
               default-first-option
@@ -257,7 +257,7 @@
           <!-- 指定 flex 布局， 高度为 10， 背景色为白色 -->
           <div class="flex h-10 bg-white">
             <!-- 字体加粗 -->
-            <h4 class="font-bold">编辑文章</h4>
+            <h4 class="font-bold">编辑灵感节点</h4>
             <!-- 靠右对齐 -->
             <div class="ml-auto flex">
               <el-button @click="isArticleUpdateEditorShow = false"
@@ -323,7 +323,7 @@
             v-model="updateArticleForm.summary"
             :rows="3"
             type="textarea"
-            placeholder="请输入文章摘要"
+            placeholder="请输入灵感节点摘要"
           />
         </el-form-item>
         <el-form-item label="灵感" prop="categoryId">
@@ -350,7 +350,7 @@
               filterable
               remote
               reserve-keyword
-              placeholder="请输入文章标签"
+              placeholder="请输入灵感节点标签"
               remote-show-suffix
               allow-create
               default-first-option
@@ -394,7 +394,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// 模糊搜索的文章标题
+// 模糊搜索的灵感节点标题
 const searchArticleTitle = ref('')
 // 日期
 const pickDate = ref('')
@@ -491,10 +491,10 @@ const handleSizeChange = chooseSize => {
   getTableData()
 }
 
-// 删除文章
+// 删除灵感节点
 const deleteArticleSubmit = row => {
   console.log(row)
-  showModel('是否确定要删除该文章？')
+  showModel('是否确定要删除该灵感节点？')
     .then(() => {
       deleteArticle(row.id).then(res => {
         if (res.success == false) {
@@ -515,9 +515,9 @@ const deleteArticleSubmit = row => {
     })
 }
 
-// 是否显示文章发布对话框
+// 是否显示灵感节点发布对话框
 const isArticlePublishEditorShow = ref(false)
-// 发布文章表单引用
+// 发布灵感节点表单引用
 const publishArticleFormRef = ref(null)
 
 // 表单对象
@@ -531,7 +531,7 @@ const form = reactive({
   summary: ''
 })
 
-// 修改文章表单对象
+// 修改灵感节点表单对象
 const updateArticleForm = reactive({
   id: null,
   title: '',
@@ -545,21 +545,23 @@ const updateArticleForm = reactive({
 // 表单校验规则
 const rules = {
   title: [
-    { required: true, message: '请输入文章标题', trigger: 'blur' },
+    { required: true, message: '请输入灵感节点标题', trigger: 'blur' },
     {
       min: 1,
       max: 40,
-      message: '文章标题要求大于1个字符，小于40个字符',
+      message: '灵感节点标题要求大于1个字符，小于40个字符',
       trigger: 'blur'
     }
   ],
   content: [{ required: true }],
   cover: [{ required: true }],
-  categoryId: [{ required: true, message: '请选择文章灵感', trigger: 'blur' }],
-  tags: [{ required: true, message: '请选择文章标签', trigger: 'blur' }]
+  categoryId: [
+    { required: true, message: '请选择灵感节点灵感', trigger: 'blur' }
+  ],
+  tags: [{ required: true, message: '请选择灵感节点标签', trigger: 'blur' }]
 }
 
-// 上传文章封面图片
+// 上传灵感节点封面图片
 const handleCoverChange = file => {
   // 表单对象
   let formData = new FormData()
@@ -579,7 +581,7 @@ const handleCoverChange = file => {
   })
 }
 
-// 编辑文章：上传文章封面图片
+// 编辑灵感节点：上传灵感节点封面图片
 const handleUpdateCoverChange = file => {
   // 表单对象
   let formData = new FormData()
@@ -618,7 +620,7 @@ const onUploadImg = async (files, callback) => {
   )
 }
 
-// 文章灵感
+// 灵感节点灵感
 const categories = ref([])
 getCategorySelectList().then(e => {
   console.log('获取灵感数据')
@@ -627,7 +629,7 @@ getCategorySelectList().then(e => {
 
 // 标签 select Loading 状态，默认不显示
 const tagSelectLoading = ref(false)
-// 文章标签
+// 灵感节点标签
 const tags = ref([])
 // 渲染标签数据
 getTagSelectList().then(res => {
@@ -653,7 +655,7 @@ const remoteMethod = query => {
   }
 }
 
-// 发布文章
+// 发布灵感节点
 const publishArticleSubmit = () => {
   // isArticlePublishEditorShow.value = true
   console.log('提交 md 内容：' + form.content)
@@ -673,7 +675,7 @@ const publishArticleSubmit = () => {
       }
 
       showMessage('发布成功')
-      // 隐藏发布文章对话框
+      // 隐藏发布灵感节点对话框
       isArticlePublishEditorShow.value = false
       // 将 form 表单字段置空
       form.title = ''
@@ -688,15 +690,15 @@ const publishArticleSubmit = () => {
   })
 }
 
-// 是否显示编辑文章对话框
+// 是否显示编辑灵感节点对话框
 const isArticleUpdateEditorShow = ref(false)
-// 编辑文章表单引用
+// 编辑灵感节点表单引用
 const updateArticleFormRef = ref(null)
-// 编辑文章按钮点击事件
+// 编辑灵感节点按钮点击事件
 const showArticleUpdateEditor = row => {
-  // 显示编辑文章对话框
+  // 显示编辑灵感节点对话框
   isArticleUpdateEditorShow.value = true
-  // 拿到文章 ID
+  // 拿到灵感节点 ID
   let articleId = row.id
   getArticleDetail(articleId).then(res => {
     if (res.success) {
@@ -712,7 +714,7 @@ const showArticleUpdateEditor = row => {
   })
 }
 
-// 保存文章
+// 保存灵感节点
 const updateSubmit = () => {
   console.log('tijiao')
   updateArticleFormRef.value.validate(valid => {
@@ -721,7 +723,7 @@ const updateSubmit = () => {
       return false
     }
 
-    // 请求更新文章接口
+    // 请求更新灵感节点接口
     updateArticle(updateArticleForm).then(res => {
       if (res.success == false) {
         // 获取服务端返回的错误消息
@@ -740,7 +742,7 @@ const updateSubmit = () => {
   })
 }
 
-// 跳转文章详情页
+// 跳转灵感节点详情页
 const goArticleDetailPage = articleId => {
   router.push('/article/' + articleId)
 }
