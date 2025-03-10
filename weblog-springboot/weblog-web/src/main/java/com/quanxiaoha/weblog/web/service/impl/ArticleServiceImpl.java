@@ -202,7 +202,7 @@ public class ArticleServiceImpl implements ArticleService {
         vo.setTags(tagVOS);
 
         // 上一篇
-        ArticleDO preArticleDO = articleMapper.selectPreArticle(articleId);
+        ArticleDO preArticleDO = articleMapper.selectPreArticle(articleId, vo.getCategoryId());
         if (Objects.nonNull(preArticleDO)) {
             FindPreNextArticleRspVO preArticleVO = FindPreNextArticleRspVO.builder()
                     .articleId(preArticleDO.getId())
@@ -212,7 +212,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         // 下一篇
-        ArticleDO nextArticleDO = articleMapper.selectNextArticle(articleId);
+        ArticleDO nextArticleDO = articleMapper.selectNextArticle(articleId, vo.getCategoryId());
         if (Objects.nonNull(nextArticleDO)) {
             FindPreNextArticleRspVO nextArticleVO = FindPreNextArticleRspVO.builder()
                     .articleId(nextArticleDO.getId())

@@ -77,26 +77,28 @@ public interface ArticleMapper extends BaseMapper<ArticleDO> {
     /**
      * 查询上一篇文章
      * @param articleId
+     * @param categoryId
      * @return
      */
-    default ArticleDO selectPreArticle(Long articleId) {
-        return selectOne(Wrappers.<ArticleDO>lambdaQuery()
-                .orderByAsc(ArticleDO::getId) // 按文章 ID 倒序排列
-                .gt(ArticleDO::getId, articleId) // 查询比当前文章 ID 大的
-                .last("limit 1")); // 第一条记录即为上一篇文章
-    }
+    @Select("SELECT a.* FROM t_article a " +
+            "INNER JOIN t_article_category_rel acr ON a.id = acr.article_id " +
+            "WHERE acr.category_id = #{categoryId} " +
+            "AND a.id > #{articleId} " +
+            "ORDER BY a.id ASC LIMIT 1")
+    ArticleDO selectPreArticle(Long articleId, Long categoryId);
 
     /**
      * 查询下一篇文章
      * @param articleId
+     * @param categoryId
      * @return
      */
-    default ArticleDO selectNextArticle(Long articleId) {
-        return selectOne(Wrappers.<ArticleDO>lambdaQuery()
-                .orderByDesc(ArticleDO::getId) // 按文章 ID 倒序排列
-                .lt(ArticleDO::getId, articleId) // 查询比当前文章 ID 小的
-                .last("limit 1")); // 第一条记录即为下一篇文章
-    }
+    @Select("SELECT a.* FROM t_article a " +
+            "INNER JOIN t_article_category_rel acr ON a.id = acr.article_id " +
+            "WHERE acr.category_id = #{categoryId} " +
+            "AND a.id < #{articleId} " +
+            "ORDER BY a.id DESC LIMIT 1")
+    ArticleDO selectNextArticle(Long articleId, Long categoryId);
 
     /**
      * 阅读量+1
