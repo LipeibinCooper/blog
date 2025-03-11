@@ -23,7 +23,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = " 博客基础信息修改 VO")
 public class UpdateBlogSettingsReqVO {
 
-    @NotBlank(message = "博客 LOGO 不能为空")
     private String logo;
 
     @NotBlank(message = "博客名称不能为空")

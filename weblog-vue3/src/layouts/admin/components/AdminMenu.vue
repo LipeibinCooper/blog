@@ -8,12 +8,12 @@
       <img
         v-if="menuStore.menuWidth == '250px'"
         src="@/assets/weblog-logo.png"
-        class="h-[40px] transition-all duration-300"
+        class="h-[60px] transition-all duration-300"
       />
       <img
         v-else
         src="@/assets/weblog-logo-mini.png"
-        class="h-[40px] transition-all duration-300"
+        class="h-[30px] transition-all duration-300"
       />
     </div>
 
@@ -132,6 +132,18 @@ const menus = [
   margin-right: 10px;
   font-size: 18px;
   color: #666;
+}
+
+/* 收起状态下的菜单项样式 */
+.el-menu--collapse .menu-item {
+  display: flex;
+  justify-content: center;
+  padding: 0 !important;
+}
+
+/* 收起状态下的图标样式 */
+.el-menu--collapse .menu-icon {
+  margin: 0;
 }
 
 .menu-text {

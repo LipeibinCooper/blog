@@ -54,4 +54,9 @@ public class FindWikiPageListRspVO {
      */
     private Boolean isPublish;
 
+    /**
+     * 灵感数量（文章数量）
+     */
+    private Integer articlesTotal;
+
 }

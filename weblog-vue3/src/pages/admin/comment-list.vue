@@ -4,7 +4,7 @@
         <el-card shadow="never" class="mb-5">
             <!-- flex 布局，内容垂直居中 -->
             <div class="flex items-center">
-                <el-text>路由地址</el-text>
+                <el-text>灵感节点</el-text>
                 <div class="ml-3 w-52 mr-5"><el-input v-model="searchRouterUrl" placeholder="请输入（模糊查询）" clearable />
                 </div>
 
@@ -32,18 +32,13 @@
             <!-- 分页列表 -->
             <el-table :data="tableData" border stripe v-loading="tableLoading" table-layout="auto">
                 <el-table-column type="index" label="序号" width="60" />
-                <el-table-column prop="routerUrl" label="路由">
-                    <template #default="scope">
-                        <el-link type="primary" :href="'#' + scope.row.routerUrl" target="_blank">{{ scope.row.routerUrl
-                            }}</el-link>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="avatar" label="头像" width="60">
-                    <template #default="scope">
-                        <el-avatar :size="40" :src="scope.row.avatar" />
-                    </template>
-                </el-table-column>
                 <el-table-column prop="nickname" label="昵称" />
+                <el-table-column prop="mail" label="邮箱" />
+                <el-table-column prop="routerUrl" label="灵感节点">
+                    <template #default="scope">
+                        <el-link type="primary" :href="'#' + scope.row.routerUrl" target="_blank">{{ getArticleTitleFromUrl(scope.row.routerUrl) }}</el-link>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="content" label="评论内容" />
                 <el-table-column prop="createTime" label="发布时间" width="200" />
                 <el-table-column prop="status" label="状态">
@@ -89,11 +84,8 @@
         <!-- 查看评论详情 -->
         <el-dialog v-model="detailDialogVisible" title="评论详情" width="700">
             <el-form :model="commentDetail" label-width="auto">
-                <el-form-item label="路由">
+                <el-form-item label="灵感节点">
                     <el-input v-model="commentDetail.routerUrl" disabled />
-                </el-form-item>
-                <el-form-item label="头像">
-                    <el-avatar :size="40" :src="commentDetail.avatar" />
                 </el-form-item>
                 <el-form-item label="昵称">
                     <el-input v-model="commentDetail.nickname" disabled />
@@ -151,6 +143,7 @@ import { Search, RefreshRight, Delete, Edit, Tickets } from '@element-plus/icons
 import moment from 'moment'
 import { showMessage, showModel } from '@/composables/util'
 import FormDialog from '@/components/FormDialog.vue'
+import { getArticleDetail } from '@/api/admin/article'
 
 // 模糊搜索的路由
 const searchRouterUrl = ref('')
@@ -237,6 +230,39 @@ const total = ref(0)
 // 每页显示的数据量，给了个默认值 10
 const size = ref(10)
 
+// 从路由URL中提取文章标题
+const articleTitles = ref({}) // 缓存文章标题，避免重复请求
+
+// 从路由URL中提取文章标题
+const getArticleTitleFromUrl = (routerUrl) => {
+    if (!routerUrl) return '未知文章'
+    
+    // 如果已经缓存了该路由的文章标题，直接返回
+    if (articleTitles.value[routerUrl]) {
+        return articleTitles.value[routerUrl]
+    }
+    
+    // 从路由中提取文章ID
+    // 假设路由格式为 /article/123 或 /wiki/123 等
+    const matches = routerUrl.match(/\/(article|wiki)\/([\d]+)/)
+    if (matches && matches.length >= 3) {
+        const articleId = matches[2]
+        // 异步获取文章标题
+        getArticleDetail(articleId).then(res => {
+            if (res.success && res.data) {
+                // 缓存文章标题
+                articleTitles.value[routerUrl] = res.data.title
+            }
+        }).catch(() => {
+            // 获取失败时使用路由作为标题
+            articleTitles.value[routerUrl] = routerUrl
+        })
+    }
+    
+    // 在获取到标题之前，先显示路由
+    return routerUrl
+}
+
 // 获取分页数据
 function getTableData() {
     // 显示表格 loading
@@ -252,6 +278,13 @@ function getTableData() {
                 current.value = res.current
                 size.value = res.size
                 total.value = res.total
+                
+                // 预加载所有文章标题
+                tableData.value.forEach(item => {
+                    if (item.routerUrl) {
+                        getArticleTitleFromUrl(item.routerUrl)
+                    }
+                })
             }
         })
         .finally(() => tableLoading.value = false) // 隐藏表格 loading

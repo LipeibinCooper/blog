@@ -7,7 +7,9 @@ import com.quanxiaoha.weblog.admin.model.vo.tag.*;
 import com.quanxiaoha.weblog.admin.service.AdminTagService;
 import com.quanxiaoha.weblog.common.domain.dos.ArticleTagRelDO;
 import com.quanxiaoha.weblog.common.domain.dos.TagDO;
+import com.quanxiaoha.weblog.common.domain.mapper.ArticleMapper;
 import com.quanxiaoha.weblog.common.domain.mapper.ArticleTagRelMapper;
+import com.quanxiaoha.weblog.common.domain.mapper.CommentMapper;
 import com.quanxiaoha.weblog.common.domain.mapper.TagMapper;
 import com.quanxiaoha.weblog.common.enums.ResponseCodeEnum;
 import com.quanxiaoha.weblog.common.exception.BizException;
@@ -22,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -39,6 +42,10 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, TagDO> implement
     private TagMapper tagMapper;
     @Autowired
     private ArticleTagRelMapper articleTagRelMapper;
+    @Autowired
+    private ArticleMapper articleMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
     /**
      * 添加标签集合
@@ -90,12 +97,32 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, TagDO> implement
         // do 转 vo
         List<FindTagPageListRspVO> vos = null;
         if (!CollectionUtils.isEmpty(records)) {
-            vos = records.stream().map(tagDO -> FindTagPageListRspVO.builder()
+            vos = records.stream().map(tagDO -> {
+                // 查询该标签下所有文章的ID
+                List<Long> articleIds = articleTagRelMapper.selectArticleIdsByTagId(tagDO.getId());
+                
+                // 计算浏览量和评论量
+                Long readNum = 0L;
+                Long commentCount = 0L;
+                
+                if (!CollectionUtils.isEmpty(articleIds)) {
+                    // 查询文章的浏览量
+                    readNum = articleMapper.selectSumReadNumByArticleIds(articleIds);
+                    
+                    // 查询文章的评论量
+                    Map<Long, Long> commentCountMap = commentMapper.selectArticleCommentCounts(articleIds);
+                    commentCount = commentCountMap.values().stream().mapToLong(Long::longValue).sum();
+                }
+                
+                return FindTagPageListRspVO.builder()
                     .id(tagDO.getId())
                     .name(tagDO.getName())
                     .createTime(tagDO.getCreateTime())
                     .articlesTotal(tagDO.getArticlesTotal())
-                    .build()).collect(Collectors.toList());
+                    .readNum(readNum)
+                    .commentCount(commentCount)
+                    .build();
+            }).collect(Collectors.toList());
         }
 
         return PageResponse.success(page, vos);

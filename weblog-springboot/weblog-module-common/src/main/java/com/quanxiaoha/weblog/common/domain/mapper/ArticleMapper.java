@@ -169,4 +169,21 @@ public interface ArticleMapper extends BaseMapper<ArticleDO> {
 
         return selectPage(page, wrapper);
     }
+
+    /**
+     * 根据文章ID列表查询浏览量总和
+     * @param articleIds
+     * @return
+     */
+    @Select("<script>" +
+            "SELECT COALESCE(SUM(read_num), 0) " +
+            "FROM t_article " +
+            "<if test='articleIds != null and articleIds.size() > 0'>" +
+            "WHERE id IN " +
+            "<foreach collection='articleIds' item='id' open='(' separator=',' close=')'>" +
+            "#{id}" +
+            "</foreach>" +
+            "</if>" +
+            "</script>")
+    Long selectSumReadNumByArticleIds(List<Long> articleIds);
 }

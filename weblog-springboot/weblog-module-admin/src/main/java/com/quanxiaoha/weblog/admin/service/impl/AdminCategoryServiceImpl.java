@@ -9,7 +9,9 @@ import com.quanxiaoha.weblog.admin.service.AdminCategoryService;
 import com.quanxiaoha.weblog.common.domain.dos.ArticleCategoryRelDO;
 import com.quanxiaoha.weblog.common.domain.dos.CategoryDO;
 import com.quanxiaoha.weblog.common.domain.mapper.ArticleCategoryRelMapper;
+import com.quanxiaoha.weblog.common.domain.mapper.ArticleMapper;
 import com.quanxiaoha.weblog.common.domain.mapper.CategoryMapper;
+import com.quanxiaoha.weblog.common.domain.mapper.CommentMapper;
 import com.quanxiaoha.weblog.common.enums.ResponseCodeEnum;
 import com.quanxiaoha.weblog.common.exception.BizException;
 import com.quanxiaoha.weblog.common.model.vo.SelectRspVO;
@@ -22,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -39,6 +42,10 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     private CategoryMapper categoryMapper;
     @Autowired
     private ArticleCategoryRelMapper articleCategoryRelMapper;
+    @Autowired
+    private ArticleMapper articleMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
     /**
      * 添加灵感
@@ -93,12 +100,32 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         List<FindCategoryPageListRspVO> vos = null;
         if (!CollectionUtils.isEmpty(categoryDOS)) {
             vos = categoryDOS.stream()
-                    .map(categoryDO -> FindCategoryPageListRspVO.builder()
-                            .id(categoryDO.getId())
-                            .name(categoryDO.getName())
-                            .createTime(categoryDO.getCreateTime())
-                            .articlesTotal(categoryDO.getArticlesTotal())
-                            .build())
+                    .map(categoryDO -> {
+                        // 查询该灵感下所有文章的ID
+                        List<Long> articleIds = articleCategoryRelMapper.selectArticleIdsByCategoryId(categoryDO.getId());
+                        
+                        // 计算浏览量和评论量
+                        Long readNum = 0L;
+                        Long commentCount = 0L;
+                        
+                        if (!CollectionUtils.isEmpty(articleIds)) {
+                            // 查询文章的浏览量
+                            readNum = articleMapper.selectSumReadNumByArticleIds(articleIds);
+                            
+                            // 查询文章的评论量
+                            Map<Long, Long> commentCountMap = commentMapper.selectArticleCommentCounts(articleIds);
+                            commentCount = commentCountMap.values().stream().mapToLong(Long::longValue).sum();
+                        }
+                        
+                        return FindCategoryPageListRspVO.builder()
+                                .id(categoryDO.getId())
+                                .name(categoryDO.getName())
+                                .createTime(categoryDO.getCreateTime())
+                                .articlesTotal(categoryDO.getArticlesTotal())
+                                .readNum(readNum)
+                                .commentCount(commentCount)
+                                .build();
+                    })
                     .collect(Collectors.toList());
         }
 

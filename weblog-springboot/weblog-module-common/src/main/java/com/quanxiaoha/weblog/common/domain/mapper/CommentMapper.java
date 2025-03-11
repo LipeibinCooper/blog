@@ -6,10 +6,16 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.quanxiaoha.weblog.common.domain.dos.CommentDO;
+import com.quanxiaoha.weblog.common.enums.CommentStatusEnum;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.HashMap;
 
 /**
  * @Author: 木萨·塔布提
@@ -75,5 +81,38 @@ public interface CommentMapper extends BaseMapper<CommentDO> {
     default int deleteByParentCommentId(Long id) {
         return delete(Wrappers.<CommentDO>lambdaQuery()
                 .eq(CommentDO::getParentCommentId, id));
+    }
+    
+    /**
+     * 查询多个文章的评论数量
+     * @param articleIds 文章ID列表
+     * @return 文章ID -> 评论数量的映射
+     */
+    default Map<Long, Long> selectArticleCommentCounts(List<Long> articleIds, Integer status) {
+        if (CollectionUtils.isEmpty(articleIds)) {
+            return new HashMap<>();
+        }
+        
+        Map<Long, Long> result = new HashMap<>();
+        for (Long articleId : articleIds) {
+            // 构建文章详情页的路由地址
+            String routerUrl = "/article/" + articleId;
+            // 查询符合条件的评论数量
+            Long count = selectCount(Wrappers.<CommentDO>lambdaQuery()
+                    .eq(CommentDO::getRouterUrl, routerUrl)
+                    .eq(CommentDO::getStatus, status));
+            // 将结果放入 Map
+            result.put(articleId, count);
+        }
+        return result;
+    }
+    
+    /**
+     * 查询多个文章的评论数量（默认查询已审核通过的评论）
+     * @param articleIds 文章ID列表
+     * @return 文章ID -> 评论数量的映射
+     */
+    default Map<Long, Long> selectArticleCommentCounts(List<Long> articleIds) {
+        return selectArticleCommentCounts(articleIds, CommentStatusEnum.NORMAL.getCode());
     }
 }

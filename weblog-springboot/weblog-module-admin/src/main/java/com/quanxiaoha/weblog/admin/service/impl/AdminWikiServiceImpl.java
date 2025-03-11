@@ -145,7 +145,21 @@ public class AdminWikiServiceImpl implements AdminWikiService {
         List<FindWikiPageListRspVO> vos = null;
         if (!CollectionUtils.isEmpty(wikiDOS)) {
             vos = wikiDOS.stream()
-                    .map(articleDO -> WikiConvert.INSTANCE.convertDO2VO(articleDO))
+                    .map(wikiDO -> {
+                        FindWikiPageListRspVO vo = WikiConvert.INSTANCE.convertDO2VO(wikiDO);
+                        // 查询该知识库下的文章数量（二级目录中article_id不为空的记录数）
+                        List<WikiCatalogDO> catalogs = wikiCatalogMapper.selectByWikiId(wikiDO.getId());
+                        if (!CollectionUtils.isEmpty(catalogs)) {
+                            long articleCount = catalogs.stream()
+                                    .filter(catalog -> Objects.equals(catalog.getLevel(), WikiCatalogLevelEnum.TWO.getValue())
+                                            && Objects.nonNull(catalog.getArticleId()))
+                                    .count();
+                            vo.setArticlesTotal((int) articleCount);
+                        } else {
+                            vo.setArticlesTotal(0);
+                        }
+                        return vo;
+                    })
                     .collect(Collectors.toList());
         }
 

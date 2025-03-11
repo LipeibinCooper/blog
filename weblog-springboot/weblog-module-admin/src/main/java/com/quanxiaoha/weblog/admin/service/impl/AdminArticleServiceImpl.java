@@ -54,6 +54,8 @@ public class AdminArticleServiceImpl implements AdminArticleService {
     private ArticleTagRelMapper articleTagRelMapper;
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+    @Autowired
+    private CommentMapper commentMapper;
 
     /**
      * 更新文章是否置顶
@@ -194,14 +196,29 @@ public class AdminArticleServiceImpl implements AdminArticleService {
         // DO 转 VO
         List<FindArticlePageListRspVO> vos = null;
         if (!CollectionUtils.isEmpty(articleDOS)) {
+            // 获取所有文章ID
+            List<Long> articleIds = articleDOS.stream()
+                    .map(ArticleDO::getId)
+                    .collect(Collectors.toList());
+            
+            // 查询每篇文章的评论数量
+            Map<Long, Long> articleCommentCountMap = commentMapper.selectArticleCommentCounts(articleIds);
+            
             vos = articleDOS.stream()
-                    .map(articleDO -> FindArticlePageListRspVO.builder()
-                            .id(articleDO.getId())
-                            .title(articleDO.getTitle())
-                            .cover(articleDO.getCover())
-                            .createTime(articleDO.getCreateTime())
-                            .isTop(articleDO.getWeight() > 0) // 是否置顶
-                            .build())
+                    .map(articleDO -> {
+                        // 获取文章评论数量，如果没有则为0
+                        Long commentCount = articleCommentCountMap.getOrDefault(articleDO.getId(), 0L);
+                        
+                        return FindArticlePageListRspVO.builder()
+                                .id(articleDO.getId())
+                                .title(articleDO.getTitle())
+                                .cover(articleDO.getCover())
+                                .createTime(articleDO.getCreateTime())
+                                .isTop(articleDO.getWeight() > 0) // 是否置顶
+                                .readNum(articleDO.getReadNum()) // 添加浏览量
+                                .commentCount(commentCount) // 添加评论数量
+                                .build();
+                    })
                     .collect(Collectors.toList());
         }
 

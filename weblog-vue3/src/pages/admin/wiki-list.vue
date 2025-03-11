@@ -1,89 +1,206 @@
 <template>
   <div>
     <!-- 表头分页查询条件， shadow="never" 指定 card 卡片组件没有阴影 -->
-    <el-card shadow="never" class="mb-5">
+    <el-card shadow="hover" class="mb-5 search-card rounded-xl">
       <!-- flex 布局，内容垂直居中 -->
-      <div class="flex items-center">
-        <el-text>知识库标题</el-text>
-        <div class="ml-3 w-52 mr-5"><el-input v-model="searchWikiTitle" placeholder="请输入（模糊查询）" clearable /></div>
-
-        <el-text>创建日期</el-text>
-        <div class="ml-3 w-30 mr-5">
-          <!-- 日期选择组件（区间选择） -->
-          <el-date-picker v-model="pickDate" type="daterange" range-separator="至" start-placeholder="开始时间"
-            end-placeholder="结束时间" size="default" :shortcuts="shortcuts" @change="datepickerChange" />
+      <div class="flex items-center flex-wrap gap-4">
+        <el-text class="text-gray-700 font-medium">知识库标题</el-text>
+        <div class="w-52 mr-5">
+          <el-input
+            v-model="searchWikiTitle"
+            placeholder="请输入（模糊查询）"
+            class="rounded-lg search-input"
+            clearable
+          />
         </div>
 
-        <el-button type="primary" class="ml-3" :icon="Search" @click="getTableData">查询</el-button>
-        <el-button class="ml-3" :icon="RefreshRight" @click="reset">重置</el-button>
+        <el-text class="text-gray-700 font-medium">创建日期</el-text>
+        <div class="w-auto mr-5">
+          <!-- 日期选择组件（区间选择） -->
+          <el-date-picker
+            v-model="pickDate"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+            size="default"
+            :shortcuts="shortcuts"
+            @change="datepickerChange"
+            class="date-picker rounded-lg"
+          />
+        </div>
+
+        <el-button
+          type="primary"
+          class="search-btn rounded-lg transition-all duration-300 hover:shadow-md"
+          :icon="Search"
+          @click="getTableData"
+        >查询</el-button>
+        <el-button 
+          class="reset-btn rounded-lg transition-all duration-300 hover:shadow-md" 
+          :icon="RefreshRight" 
+          @click="reset"
+        >重置</el-button>
       </div>
     </el-card>
 
-    <el-card shadow="never">
+    <el-card shadow="hover" class="main-card rounded-xl">
       <!-- 新增知识库按钮 -->
-      <div class="mb-5">
-        <el-button type="primary" @click="addWikiBtnClick">
+      <div class="mb-6">
+        <el-button 
+          type="primary" 
+          class="create-btn rounded-lg transition-all duration-300 hover:shadow-md hover:translate-y-[-2px]"
+          @click="addWikiBtnClick"
+        >
           <el-icon class="mr-1">
             <Plus />
           </el-icon>
-          新增知识库</el-button>
+          新增知识库
+        </el-button>
       </div>
 
       <!-- 分页列表 -->
-      <el-table :data="tableData" border stripe v-loading="tableLoading" table-layout="auto">
-        <el-table-column type="index" label="序号" width="60" />
-        <el-table-column prop="title" label="标题" />
-        <el-table-column prop="cover" label="封面">
+      <el-table 
+        :data="tableData" 
+        style="width: 100%" 
+        v-loading="tableLoading"
+        class="custom-table"
+        :header-cell-style="{
+          background: '#f9fafb',
+          color: '#374151',
+          fontWeight: '600',
+          fontSize: '14px',
+          height: '56px'
+        }"
+        :cell-style="{
+          fontSize: '14px',
+          padding: '16px 0',
+          color: '#4b5563'
+        }"
+        :row-style="{
+          transition: 'all 0.3s',
+          borderBottom: '1px solid #f3f4f6'
+        }"
+        :row-class-name="tableRowClassName"
+      >
+        <el-table-column type="index" label="序号" width="60" align="center" />
+        <el-table-column prop="title" label="标题" min-width="280">
           <template #default="scope">
-            <el-image style="width: 100px;" :src="scope.row.cover" />
+            <div class="title-cell">
+              <span class="title-text truncate block">{{ scope.row.title }}</span>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column prop="isTop" label="是否置顶">
+        <el-table-column prop="cover" label="封面" width="180" align="center">
           <template #default="scope">
-            <el-switch @change="handleIsTopChange(scope.row)" v-model="scope.row.isTop" inline-prompt
-              :active-icon="Check" :inactive-icon="Close" />
+            <el-image 
+              style="width: 120px; height: 70px; object-fit: cover;" 
+              :src="scope.row.cover" 
+              class="rounded-lg shadow-sm hover:shadow-md transition-all duration-300"
+              fit="cover"
+            />
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="发布时间" />
-        <el-table-column prop="isPublish" label="是否发布">
+        <el-table-column prop="summary" label="摘要" min-width="300">
           <template #default="scope">
-            <el-switch @change="handleIsPublishChange(scope.row)" v-model="scope.row.isPublish" inline-prompt
-              :active-icon="Check" :inactive-icon="Close" />
+            <div class="summary-cell">
+              <el-text class="text-gray-600 truncate block">{{ scope.row.summary }}</el-text>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="160">
+        <el-table-column prop="articlesTotal" label="灵感数" width="100" align="center">
           <template #default="scope">
-            <el-tooltip class="box-item" effect="dark" content="编辑" placement="bottom">
-              <el-button size="small" @click="showEditWikiDialog(scope.row)" :icon="Edit" circle>
-              </el-button>
-            </el-tooltip>
+            <div class="flex items-center justify-center">
+              <el-icon class="mr-1 text-purple-500"><Document /></el-icon>
+              <span>{{ scope.row.articlesTotal || 0 }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="isTop" label="是否置顶" width="100" align="center">
+          <template #default="scope">
+            <el-switch 
+              @change="handleIsTopChange(scope.row)" 
+              v-model="scope.row.isTop" 
+              inline-prompt
+              :active-icon="Check" 
+              :inactive-icon="Close" 
+            />
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="发布时间" width="180" align="center" />
+        <el-table-column prop="isPublish" label="是否发布" width="100" align="center">
+          <template #default="scope">
+            <el-switch 
+              @change="handleIsPublishChange(scope.row)" 
+              v-model="scope.row.isPublish" 
+              inline-prompt
+              :active-icon="Check" 
+              :inactive-icon="Close" 
+            />
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" width="220">
+          <template #default="scope">
+            <div class="action-buttons flex justify-center gap-2">
+              <el-tooltip class="box-item" effect="dark" content="编辑" placement="bottom">
+                <el-button 
+                  size="small" 
+                  @click="showEditWikiDialog(scope.row)" 
+                  :icon="Edit" 
+                  circle
+                  class="edit-btn hover:shadow-sm transition-all duration-300"
+                />
+              </el-tooltip>
 
-            <el-tooltip class="box-item" effect="dark" content="编辑目录" placement="bottom">
-              <el-button size="small" @click="showEditWikiCatalogDialog(scope.row)" :icon="Tickets" circle>
-              </el-button>
-            </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="编辑目录" placement="bottom">
+                <el-button 
+                  size="small" 
+                  @click="showEditWikiCatalogDialog(scope.row)" 
+                  :icon="Tickets" 
+                  circle
+                  class="catalog-btn hover:shadow-sm transition-all duration-300"
+                />
+              </el-tooltip>
 
-            <el-tooltip class="box-item" effect="dark" content="预览" placement="bottom">
-              <el-button size="small" :icon="View" circle>
-              </el-button>
-            </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="预览" placement="bottom">
+                <el-button 
+                  size="small" 
+                  :icon="View" 
+                  circle
+                  class="preview-btn hover:shadow-sm transition-all duration-300"
+                />
+              </el-tooltip>
 
-            <el-tooltip class="box-item" effect="dark" content="删除" placement="bottom">
-              <el-button type="danger" size="small" @click="deleteWikiSubmit(scope.row)" :icon="Delete" circle>
-              </el-button>
-            </el-tooltip>
-
+              <el-tooltip class="box-item" effect="dark" content="删除" placement="bottom">
+                <el-button 
+                  type="danger" 
+                  size="small" 
+                  @click="deleteWikiSubmit(scope.row)" 
+                  :icon="Delete" 
+                  circle
+                  class="delete-btn hover:shadow-sm transition-all duration-300"
+                />
+              </el-tooltip>
+            </div>
           </template>
         </el-table-column>
       </el-table>
 
       <!-- 分页 -->
       <div class="mt-10 flex justify-center">
-        <el-pagination v-model:current-page="current" v-model:page-size="size" :page-sizes="[10, 20, 50]" :small="false"
-          :background="true" layout="total, sizes, prev, pager, next, jumper" :total="total"
-          @size-change="handleSizeChange" @current-change="getTableData" />
+        <el-pagination
+          v-model:current-page="current"
+          v-model:page-size="size"
+          :page-sizes="[10, 20, 50]"
+          :small="false"
+          :background="true"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="getTableData"
+          class="custom-pagination"
+        />
       </div>
-
     </el-card>
 
     <!-- 新增知识库 -->
@@ -139,7 +256,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { Search, RefreshRight, Check, Close, Delete, Edit, Tickets, View } from '@element-plus/icons-vue'
+import { Search, RefreshRight, Plus, Delete, Edit, Tickets, View, ChatDotRound, Check, Close, Document } from '@element-plus/icons-vue'
 import moment from 'moment'
 import { getWikiPageList, addWiki, updateWikiIsTop, updateWikiIsPublish, deleteWiki, updateWiki } from '@/api/admin/wiki'
 import { showMessage, showModel } from '@/composables/util'
@@ -466,6 +583,11 @@ const showEditWikiCatalogDialog = (row) => {
     editCatalogFormDialogRef.value.open(row.id)
 }
 
+// 表格行样式
+const tableRowClassName = ({ row, rowIndex }) => {
+  return 'table-row hover:bg-gray-50'
+}
+
 </script>
 
 <style scoped>
@@ -482,5 +604,84 @@ const showEditWikiCatalogDialog = (row) => {
   width: 200px;
   height: 100px;
   text-align: center;
+}
+
+.custom-table {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.search-card, .main-card {
+  transition: all 0.3s;
+}
+
+.search-btn, .reset-btn, .create-btn {
+  transition: all 0.3s;
+}
+
+.custom-pagination :deep(.el-pagination.is-background .el-pager li:not(.is-disabled).is-active) {
+  background-color: #409eff;
+}
+
+.title-cell {
+  display: flex;
+  align-items: center;
+}
+
+.title-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-buttons .el-button {
+  margin: 0;
+}
+
+.edit-btn:hover {
+  color: #409eff;
+  background-color: #ecf5ff;
+}
+
+.catalog-btn:hover {
+  color: #67c23a;
+  background-color: #f0f9eb;
+}
+
+.preview-btn:hover {
+  color: #909399;
+  background-color: #f4f4f5;
+}
+
+.delete-btn:hover {
+  color: #f56c6c;
+  background-color: #fef0f0;
+}
+
+.search-input :deep(.el-input__wrapper) {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.search-input :deep(.el-input__wrapper:hover) {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.date-picker {
+  width: 360px;
+}
+
+.summary-cell {
+  padding: 0 16px;
+  line-height: 1.5;
+}
+
+.summary-cell .el-text {
+  font-size: 14px;
 }
 </style>

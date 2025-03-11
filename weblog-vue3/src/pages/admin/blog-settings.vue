@@ -7,25 +7,9 @@
           <h2 class="font-bold text-base mb-1">基础设置</h2>
         </el-form-item>
 
-        <el-form-item label="博客名称" prop="name">
-          <el-input v-model="form.name" clearable />
-        </el-form-item>
+        <!-- 移除博客名称输入框 -->
         <el-form-item label="作者名" prop="author">
           <el-input v-model="form.author" clearable />
-        </el-form-item>
-        <el-form-item label="博客 LOGO" prop="logo">
-          <el-upload
-            class="avatar-uploader"
-            action="#"
-            :on-change="handleLogoChange"
-            :auto-upload="false"
-            :show-file-list="false"
-          >
-            <img v-if="form.logo" :src="form.logo" class="avatar" />
-            <el-icon v-else class="avatar-uploader-icon">
-              <Plus />
-            </el-icon>
-          </el-upload>
         </el-form-item>
         <el-form-item label="作者头像" prop="avatar">
           <el-upload
@@ -208,9 +192,9 @@ const btnLoading = ref(false);
 const formRef = ref(null);
 // 表单对象
 const form = reactive({
-  name: "",
+  logo: "", // 添加logo字段并设置默认值为空字符串
+  name: "", // 保留name字段但不在UI中显示
   author: "",
-  logo: "",
   avatar: "",
   introduction: "",
   githubHomepage: "",
@@ -222,11 +206,9 @@ const form = reactive({
   mail: "", // 博主邮箱
 });
 
-// 规则校验
+// 规则校验 - 移除name的验证规则
 const rules = {
-  name: [{ required: true, message: "请输入博客名称", trigger: "blur" }],
   author: [{ required: true, message: "请输入作者名", trigger: "blur" }],
-  logo: [{ required: true, message: "请上传博客 LOGO", trigger: "blur" }],
   avatar: [{ required: true, message: "请上传作者头像", trigger: "blur" }],
   introduction: [{ required: true, message: "请输入介绍语", trigger: "blur" }],
 };
@@ -264,9 +246,9 @@ function initBlogSettings() {
   getBlogSettingsDetail().then((e) => {
     if ((e.success = true)) {
       // 设置表单数据
-      form.name = e.data.name;
+      form.logo = e.data.logo || ""; // 设置logo字段，如果后端返回为null则使用空字符串
+      form.name = e.data.name; // 保留name值，但不在UI中显示
       form.author = e.data.author;
-      form.logo = e.data.logo;
       form.avatar = e.data.avatar;
       form.introduction = e.data.introduction;
 
@@ -303,26 +285,6 @@ function initBlogSettings() {
   });
 }
 initBlogSettings();
-
-// 上传 logo 图片
-const handleLogoChange = (file) => {
-  // 表单对象
-  let formData = new FormData();
-  // 添加 file 字段，并将文件传入
-  formData.append("file", file.raw);
-  uploadFile(formData).then((e) => {
-    // 响参失败，提示错误消息
-    if (e.success == false) {
-      let message = e.message;
-      showMessage(message, "error");
-      return;
-    }
-
-    // 成功则设置 logo 链接，并提示成功
-    form.logo = e.data.url;
-    showMessage("上传成功");
-  });
-};
 
 // 上传作者头像
 const handleAvatarChange = (file) => {
@@ -361,7 +323,9 @@ const onSubmit = () => {
 
     // 显示保存按钮 loading
     btnLoading.value = true;
-    updateBlogSettings(form)
+    // 确保logo字段有值，保留name字段的值
+    const formData = { ...form, logo: form.logo || '' };
+    updateBlogSettings(formData)
       .then((res) => {
         if (res.success == false) {
           // 获取服务端返回的错误消息

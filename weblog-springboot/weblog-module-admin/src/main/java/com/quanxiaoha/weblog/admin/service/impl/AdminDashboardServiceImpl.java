@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.HashMap;
 
 /**
  * @author: 木萨·塔布提
@@ -127,34 +128,34 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
         // 查询最近一周的 PV 访问量记录
         List<StatisticsArticlePVDO> articlePVDOS = articlePVMapper.selectLatestWeekRecords();
 
-        FindDashboardPVStatisticsInfoRspVO vo = null;
-        if (!CollectionUtils.isEmpty(articlePVDOS)) {
-            // 转 Map, 方便后续通过日期获取 PV 访问量
-            Map<LocalDate, Long> pvDateCountMap = articlePVDOS.stream()
-                    .collect(Collectors.toMap(StatisticsArticlePVDO::getPvDate, StatisticsArticlePVDO::getPvCount));
+        // 日期集合
+        List<String> pvDates = Lists.newArrayList();
+        // PV 集合
+        List<Long> pvCounts = Lists.newArrayList();
 
-            // 日期集合
-            List<String> pvDates = Lists.newArrayList();
-            // PV 集合
-            List<Long> pvCounts = Lists.newArrayList();
+        // 当前日期
+        LocalDate currDate = LocalDate.now();
+        // 一周前
+        LocalDate startDate = currDate.minusDays(6);
+        
+        // 转 Map, 方便后续通过日期获取 PV 访问量
+        Map<LocalDate, Long> pvDateCountMap = CollectionUtils.isEmpty(articlePVDOS) ? 
+            new HashMap<>() : 
+            articlePVDOS.stream().collect(Collectors.toMap(StatisticsArticlePVDO::getPvDate, StatisticsArticlePVDO::getPvCount));
 
-            // 当前日期
-            LocalDate currDate = LocalDate.now();
-            // 一周前
-            LocalDate tmpDate = currDate.minusWeeks(1);
-            // 从一周前开始循环
-            for (; tmpDate.isBefore(currDate) || tmpDate.isEqual(currDate); tmpDate = tmpDate.plusDays(1)) {
-                // 设置对应日期的 PV 访问量
-                pvDates.add(tmpDate.format(Constants.MONTH_DAY_FORMATTER));
-                Long pvCount = pvDateCountMap.get(tmpDate);
-                pvCounts.add(Objects.isNull(pvCount) ? 0 : pvCount);
-            }
-
-            vo = FindDashboardPVStatisticsInfoRspVO.builder()
-                    .pvDates(pvDates)
-                    .pvCounts(pvCounts)
-                    .build();
+        // 从一周前开始循环到今天
+        for (LocalDate date = startDate; !date.isAfter(currDate); date = date.plusDays(1)) {
+            // 添加日期
+            pvDates.add(date.format(Constants.MONTH_DAY_FORMATTER));
+            // 获取对应日期的 PV 访问量，如果没有则为 0
+            Long pvCount = pvDateCountMap.getOrDefault(date, 0L);
+            pvCounts.add(pvCount);
         }
+
+        FindDashboardPVStatisticsInfoRspVO vo = FindDashboardPVStatisticsInfoRspVO.builder()
+                .pvDates(pvDates)
+                .pvCounts(pvCounts)
+                .build();
 
         return Response.success(vo);
     }

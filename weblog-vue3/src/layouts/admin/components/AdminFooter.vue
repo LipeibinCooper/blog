@@ -4,7 +4,7 @@
   >
     <!-- Copyright 版权信息 -->
     <div class="flex items-center space-x-1">
-      <span>Copyright © 2024.</span>
+      <span>Copyright © 2025.</span>
       <span>All rights reserved.</span>
       <span>Provided by</span>
       <a

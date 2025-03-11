@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.quanxiaoha.weblog.common.domain.dos.ArticleCategoryRelDO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: 木萨·塔布提
@@ -63,5 +64,17 @@ public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRelD
     default List<ArticleCategoryRelDO> selectListByCategoryId(Long categoryId) {
         return selectList(Wrappers.<ArticleCategoryRelDO>lambdaQuery()
                 .eq(ArticleCategoryRelDO::getCategoryId, categoryId));
+    }
+
+    /**
+     * 根据灵感 ID 查询所有文章 ID
+     * @param categoryId
+     * @return
+     */
+    default List<Long> selectArticleIdsByCategoryId(Long categoryId) {
+        List<ArticleCategoryRelDO> relList = selectListByCategoryId(categoryId);
+        return relList.stream()
+                .map(ArticleCategoryRelDO::getArticleId)
+                .collect(Collectors.toList());
     }
 }

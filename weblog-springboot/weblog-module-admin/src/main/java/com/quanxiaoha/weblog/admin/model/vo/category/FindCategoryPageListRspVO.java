@@ -37,5 +37,14 @@ public class FindCategoryPageListRspVO {
      * 文章总数
      */
     private Integer articlesTotal;
-
+    
+    /**
+     * 浏览量
+     */
+    private Long readNum;
+    
+    /**
+     * 评论量
+     */
+    private Long commentCount;
 }

@@ -43,5 +43,15 @@ public class FindArticlePageListRspVO  {
      * 是否置顶
      */
     private Boolean isTop;
+    
+    /**
+     * 浏览量
+     */
+    private Long readNum;
+    
+    /**
+     * 评论数量
+     */
+    private Long commentCount;
 
 }

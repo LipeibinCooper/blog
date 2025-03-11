@@ -129,7 +129,7 @@
           >
             <!-- 用户登录头像 -->
             <img
-              class="w-8 h-8"
+              class="w-8 h-8 rounded-full"
               src="@/assets/admin-avatar.png"
               alt="管理员头像"
             />

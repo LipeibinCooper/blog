@@ -5,6 +5,7 @@ import com.quanxiaoha.weblog.common.config.InsertBatchMapper;
 import com.quanxiaoha.weblog.common.domain.dos.ArticleTagRelDO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: 木萨·塔布提
@@ -63,5 +64,17 @@ public interface ArticleTagRelMapper extends InsertBatchMapper<ArticleTagRelDO> 
     default List<ArticleTagRelDO> selectByTagId(Long tagId) {
         return selectList(Wrappers.<ArticleTagRelDO>lambdaQuery()
                 .eq(ArticleTagRelDO::getTagId, tagId));
+    }
+
+    /**
+     * 根据标签 ID 查询所有文章 ID
+     * @param tagId
+     * @return
+     */
+    default List<Long> selectArticleIdsByTagId(Long tagId) {
+        List<ArticleTagRelDO> relList = selectByTagId(tagId);
+        return relList.stream()
+                .map(ArticleTagRelDO::getArticleId)
+                .collect(Collectors.toList());
     }
 }

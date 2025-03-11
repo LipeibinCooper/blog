@@ -80,7 +80,7 @@
             <el-avatar
               class="mr-2"
               :size="28"
-              src="https://example.com/avatar.jpg"
+              src=""
             />
             {{ userStore.userInfo.username }}
             <el-icon class="el-icon--right">

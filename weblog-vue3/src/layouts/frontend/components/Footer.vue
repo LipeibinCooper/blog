@@ -1,22 +1,24 @@
 <template>
-  <footer class="bg-white mt-5 dark:bg-gray-800">
-    <div
-      class="w-full mx-auto max-w-screen-xl py-6 px-4 md:flex md:items-center md:justify-between"
-    >
-      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
-        >© 2024
-        <a href="https://example.com/" class="hover:underline">灵感博客</a>. All
-        Rights Reserved.
-      </span>
-      <ul
-        class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0"
+  <div
+    class="bg-white py-3 flex items-center justify-center text-xs text-gray-400"
+  >
+    <!-- Copyright 版权信息 -->
+    <div class="flex items-center space-x-1">
+      <span>Copyright © 2025.</span>
+      <span>All rights reserved.</span>
+      <span>Provided by</span>
+      <a
+        class="text-gray-500 hover:text-primary transition-colors duration-300"
+        href="https://example.com/"
+        target="_blank"
+        >灵感博客</a
       >
-        <li>
-          备案号：<a href="#" class="mr-4 hover:underline md:mr-6"
-            >陕ICP备xxxxxxxx号</a
-          >
-        </li>
-      </ul>
     </div>
-  </footer>
+  </div>
 </template>
+
+<style scoped>
+.text-primary {
+  color: var(--el-color-primary);
+}
+</style>

@@ -1,19 +1,20 @@
 <template>
   <div>
     <!-- 表头分页查询条件， shadow="never" 指定 card 卡片组件没有阴影 -->
-    <el-card shadow="never" class="mb-5">
+    <el-card shadow="hover" class="mb-5 search-card rounded-xl">
       <!-- flex 布局，内容垂直居中 -->
-      <div class="flex items-center">
-        <el-text>灵感名称</el-text>
-        <div class="ml-3 w-52 mr-5">
+      <div class="flex items-center flex-wrap gap-4">
+        <el-text class="text-gray-700 font-medium">灵感名称</el-text>
+        <div class="w-52 mr-5">
           <el-input
             v-model="searchCategoryName"
             placeholder="请输入（模糊查询）"
+            class="rounded-lg search-input"
           />
         </div>
 
-        <el-text>创建日期</el-text>
-        <div class="ml-3 w-30 mr-5">
+        <el-text class="text-gray-700 font-medium">创建日期</el-text>
+        <div class="w-auto mr-5">
           <!-- 日期选择组件（区间选择） -->
           <el-date-picker
             v-model="pickDate"
@@ -24,56 +25,112 @@
             size="default"
             :shortcuts="shortcuts"
             @change="datepickerChange"
+            class="date-picker rounded-lg"
           />
         </div>
 
         <el-button
           type="primary"
-          class="ml-3"
+          class="search-btn rounded-lg transition-all duration-300 hover:shadow-md"
           :icon="Search"
           @click="getTableData"
           >查询</el-button
         >
-        <el-button class="ml-3" :icon="RefreshRight" @click="reset"
+        <el-button 
+          class="reset-btn rounded-lg transition-all duration-300 hover:shadow-md" 
+          :icon="RefreshRight" 
+          @click="reset"
           >重置</el-button
         >
       </div>
     </el-card>
 
-    <el-card shadow="never">
+    <el-card shadow="hover" class="main-card rounded-xl">
       <!-- 新增按钮 -->
-      <div class="mb-5">
-        <el-button type="primary" @click="addCategoryBtnClick">
+      <div class="mb-6">
+        <el-button 
+          type="primary" 
+          class="create-btn rounded-lg transition-all duration-300 hover:shadow-md hover:translate-y-[-2px]"
+          @click="addCategoryBtnClick"
+        >
           <el-icon class="mr-1">
             <Plus />
           </el-icon>
-          新增</el-button
-        >
+          新增灵感
+        </el-button>
       </div>
 
       <!-- 分页列表 -->
       <el-table
         :data="tableData"
-        border
-        stripe
         style="width: 100%"
         v-loading="tableLoading"
+        class="custom-table"
+        :header-cell-style="{
+          background: '#f9fafb',
+          color: '#374151',
+          fontWeight: '600',
+          fontSize: '14px',
+          height: '56px'
+        }"
+        :cell-style="{
+          fontSize: '14px',
+          padding: '16px 0',
+          color: '#4b5563'
+        }"
+        :row-style="{
+          transition: 'all 0.3s',
+          borderBottom: '1px solid #f3f4f6'
+        }"
+        :row-class-name="tableRowClassName"
       >
-        <el-table-column prop="name" label="灵感名称" width="180" />
-        <el-table-column prop="articlesTotal" label="灵感节点数" width="100" />
-        <el-table-column prop="createTime" label="创建时间" width="180" />
-        <el-table-column label="操作">
+        <el-table-column prop="name" label="灵感名称" min-width="180">
           <template #default="scope">
-            <el-button
-              type="danger"
-              size="small"
-              @click="deleteCategorySubmit(scope.row)"
-            >
-              <el-icon class="mr-1">
-                <Delete />
-              </el-icon>
-              删除
-            </el-button>
+            <div class="title-cell">
+              <span class="title-text font-medium">{{ scope.row.name }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="articlesTotal" label="灵感节点数" width="120" align="center">
+          <template #default="scope">
+            <div class="flex items-center justify-center">
+              <el-icon class="mr-1 text-purple-500"><Document /></el-icon>
+              <span>{{ scope.row.articlesTotal || 0 }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="readNum" label="浏览量" width="120" align="center">
+          <template #default="scope">
+            <div class="flex items-center justify-center">
+              <el-icon class="mr-1 text-blue-500"><View /></el-icon>
+              <span>{{ scope.row.readNum || 0 }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="commentCount" label="评论量" width="120" align="center">
+          <template #default="scope">
+            <div class="flex items-center justify-center">
+              <el-icon class="mr-1 text-green-500"><ChatDotRound /></el-icon>
+              <span>{{ scope.row.commentCount || 0 }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间" width="180" align="center" />
+        <el-table-column label="操作" align="center" width="120">
+          <template #default="scope">
+            <div class="action-buttons flex justify-center">
+              <el-button
+                type="danger"
+                size="small"
+                class="delete-btn rounded-lg transition-all duration-300 hover:shadow-sm"
+                @click="deleteCategorySubmit(scope.row)"
+              >
+                <el-icon class="mr-1">
+                  <Delete />
+                </el-icon>
+                删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -90,6 +147,7 @@
           :total="total"
           @size-change="handleSizeChange"
           @current-change="getTableData"
+          class="custom-pagination"
         />
       </div>
     </el-card>
@@ -122,7 +180,7 @@
 </template>
 
 <script setup>
-import { Search, RefreshRight } from '@element-plus/icons-vue'
+import { Search, RefreshRight, Plus, Delete, View, ChatDotRound, Document } from '@element-plus/icons-vue'
 import { ref, reactive } from 'vue'
 import {
   getCategoryPageList,
@@ -317,4 +375,40 @@ const deleteCategorySubmit = row => {
       console.log('取消了')
     })
 }
+
+// 表格行样式
+const tableRowClassName = ({ row, rowIndex }) => {
+  return 'table-row hover:bg-gray-50'
+}
 </script>
+
+<style scoped>
+.custom-table {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.search-card, .main-card {
+  transition: all 0.3s;
+}
+
+.search-btn, .reset-btn, .create-btn, .delete-btn {
+  transition: all 0.3s;
+}
+
+.custom-pagination :deep(.el-pagination.is-background .el-pager li:not(.is-disabled).is-active) {
+  background-color: #409eff;
+}
+
+.title-cell {
+  display: flex;
+  align-items: center;
+}
+
+.title-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>

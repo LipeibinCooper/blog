@@ -31,8 +31,12 @@ public interface StatisticsArticlePVMapper extends BaseMapper<StatisticsArticleP
      * @return
      */
     default List<StatisticsArticlePVDO> selectLatestWeekRecords() {
+        LocalDate today = LocalDate.now();
+        LocalDate oneWeekAgo = today.minusDays(6); // 获取一周前的日期（包括今天共7天）
+        
         return selectList(Wrappers.<StatisticsArticlePVDO>lambdaQuery()
-                .le(StatisticsArticlePVDO::getPvDate, LocalDate.now()) // 小于等于当前日期
-                .last("limit 7")); // 仅查询七条
+                .ge(StatisticsArticlePVDO::getPvDate, oneWeekAgo) // 大于等于一周前的日期
+                .le(StatisticsArticlePVDO::getPvDate, today) // 小于等于当前日期
+                .orderBy(true, true, StatisticsArticlePVDO::getPvDate)); // 按日期升序排序
     }
 }
