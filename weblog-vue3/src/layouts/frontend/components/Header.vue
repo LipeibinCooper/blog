@@ -117,7 +117,7 @@
             v-if="!isLogined"
             @click="$router.push('/login')"
           >
-            登录
+            登录管理端
           </div>
           <!-- 已经登录，展示用户头像 -->
           <button

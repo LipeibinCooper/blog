@@ -8,7 +8,7 @@
         class="flex justify-center items-center h-full flex-col animate__animated animate__bounceInLeft animate__fast"
       >
         <h2 class="font-bold text-4xl mb-7 text-white">
-          灵感笔记博客登录页
+          灵感笔记博客 管理端登录页
         </h2>
         <p class="text-white">
           一切伟大的成果都源于一个小小的灵感
