@@ -80,7 +80,7 @@
             <el-avatar
               class="mr-2"
               :size="28"
-              src=""
+              :src="blogSettingsStore.blogSettings.avatar"
             />
             {{ userStore.userInfo.username }}
             <el-icon class="el-icon--right">
@@ -155,7 +155,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, onMounted } from 'vue'
 import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { useFullscreen } from '@vueuse/core'
@@ -163,6 +163,7 @@ import { updateAdminPassword } from '@/api/admin/user'
 import { showMessage, showModel } from '@/composables/util'
 import { useRouter } from 'vue-router'
 import FormDialog from '@/components/FormDialog.vue'
+import { useBlogSettingsStore } from '@/stores/blogSettings'
 
 const router = useRouter()
 
@@ -173,6 +174,14 @@ const { isFullscreen, toggle } = useFullscreen()
 const menuStore = useMenuStore()
 // 引入了用户 Store
 const userStore = useUserStore()
+// 引入了博客设置 Store
+const blogSettingsStore = useBlogSettingsStore()
+
+// 组件挂载时，确保加载博客设置信息
+onMounted(() => {
+  // 获取博客设置信息
+  blogSettingsStore.getBlogSettings()
+})
 
 // icon 点击事件
 const handleMenuWidth = () => {

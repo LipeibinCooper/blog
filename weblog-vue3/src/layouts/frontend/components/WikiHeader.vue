@@ -168,7 +168,7 @@
             <!-- 用户登录头像 -->
             <img
               class="w-8 h-8"
-              src="@/assets/admin-avatar.png"
+              :src="blogSettingsStore.blogSettings.avatar"
               alt="管理员头像"
             />
           </button>

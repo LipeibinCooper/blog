@@ -17,6 +17,9 @@ export const useBlogSettingsStore = defineStore('blogsettings', () => {
     })
   }
 
-
   return { blogSettings, getBlogSettings }
+},
+{
+  // 开启持久化
+  persist: true,
 })

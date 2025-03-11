@@ -338,6 +338,8 @@ const onSubmit = () => {
         // 重新渲染页面中的信息
         initBlogSettings();
         showMessage("保存成功");
+        // 刷新页面
+        location.reload();
       })
       .finally(() => (btnLoading.value = false)); // 隐藏保存按钮 loading
   });
