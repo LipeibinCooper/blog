@@ -116,7 +116,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// 跳转灵感文章列表页
+// 跳转灵感笔记列表页
 const goCategoryArticleListPage = (id, name) => {
   // 跳转时通过 query 携带参数（灵感 ID、灵感名称）
   router.push({ path: '/category/article/list', query: { id, name } })

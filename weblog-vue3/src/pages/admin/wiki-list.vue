@@ -108,7 +108,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="articlesTotal" label="灵感数" width="100" align="center">
+        <el-table-column prop="articlesTotal" label="灵感笔记数" width="100" align="center">
           <template #default="scope">
             <div class="flex items-center justify-center">
               <el-icon class="mr-1 text-purple-500"><Document /></el-icon>

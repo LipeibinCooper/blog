@@ -101,7 +101,7 @@ getWikiList().then(res => {
   }
 })
 
-// 跳转灵感节点详情页
+// 跳转灵感笔记详情页
 const goWikiArticleDetailPage = (wikiId, articleId) => {
   console.log('跳转' + wikiId + ',' + articleId)
   router.push({ path: '/wiki/' + wikiId, query: { articleId } })

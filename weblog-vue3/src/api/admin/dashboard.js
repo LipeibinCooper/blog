@@ -1,6 +1,6 @@
 import axios from '@/axios'
 
-// 获取仪表盘基础信息（灵感节点数、灵感数、标签数、总浏览量）
+// 获取仪表盘基础信息（灵感笔记数、灵感数、标签数、总浏览量）
 export function getBaseStatisticsInfo (data) {
   return axios.post('/admin/dashboard/statistics', data)
 }

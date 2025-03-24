@@ -31,7 +31,7 @@
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>
 
-      <!-- 灵感节点数量、灵感数量、标签数量、总访问量 -->
+      <!-- 灵感笔记数量、灵感数量、标签数量、总访问量 -->
       <div class="flex justify-center gap-5 mb-2 dark:text-gray-400">
         <div
           @click="router.push('/archive/list')"
@@ -41,7 +41,7 @@
             :value="statisticsInfo.articleTotalCount"
             customClass="text-lg font-bold"
           ></CountTo>
-          <div class="text-sm">灵感节点</div>
+          <div class="text-sm">灵感笔记</div>
         </div>
         <div
           @click="router.push('/category/list')"
@@ -238,7 +238,7 @@ const jump = url => {
   window.open(url, '_blank')
 }
 
-// 统计信息(灵感节点、灵感、标签数量、总访问量)
+// 统计信息(灵感笔记、灵感、标签数量、总访问量)
 const statisticsInfo = ref({})
 getStatisticsInfo().then(res => {
   if (res.success) {

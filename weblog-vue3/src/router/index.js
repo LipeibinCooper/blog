@@ -47,11 +47,11 @@ const routes = [
     }
   },
   {
-    path: '/category/article/list', // 灵感文章页
+    path: '/category/article/list', // 灵感笔记页
     component: CategoryArticleList,
     meta: {
       // meta 信息
-      title: '灵感文章页'
+      title: '灵感笔记页'
     }
   },
   {
@@ -123,7 +123,7 @@ const routes = [
         path: '/admin/article/list',
         component: AdminArticleList,
         meta: {
-          title: '灵感节点管理'
+          title: '灵感笔记管理'
         }
       },
       {

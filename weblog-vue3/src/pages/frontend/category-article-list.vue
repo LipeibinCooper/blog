@@ -84,7 +84,7 @@
             </div>
           </div>
 
-          <!-- 灵感文章列表 -->
+          <!-- 灵感笔记列表 -->
           <div
             class="p-5 mb-4 border border-gray-200 rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700"
           >
@@ -790,9 +790,9 @@ watch(route, (newRoute, oldRoute) => {
 
 // 当前页码
 const current = ref(1)
-// 每页显示的灵感节点数
+// 每页显示的灵感笔记数
 const size = ref(10)
-// 总灵感节点数
+// 总灵感笔记数
 const total = ref(0)
 // 总共多少页
 const pages = ref(0)
@@ -831,7 +831,7 @@ getCategoryList({}).then(res => {
   }
 })
 
-// 跳转灵感文章列表页
+// 跳转灵感笔记列表页
 const goCategoryArticleListPage = (id, name) => {
   // 跳转时通过 query 携带参数（灵感 ID、灵感名称）
   router.push({ path: '/category/article/list', query: { id, name } })

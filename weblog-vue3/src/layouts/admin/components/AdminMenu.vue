@@ -69,7 +69,7 @@ const menus = [
     path: '/admin/index'
   },
   {
-    name: '灵感节点管理',
+    name: '灵感笔记管理',
     icon: 'Document',
     path: '/admin/article/list'
   },

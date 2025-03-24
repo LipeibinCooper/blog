@@ -2,7 +2,7 @@
   <main class="container p-4">
     <!-- grid 表格布局，分为 4 列 -->
     <div class="grid grid-cols-4 gap-7">
-      <!-- 灵感节点数 -->
+      <!-- 灵感笔记数 -->
       <div class="col-span-4 md:col-span-1">
         <!-- 卡片 -->
         <div
@@ -45,7 +45,7 @@
             </svg>
           </div>
           <div class="ml-5">
-            <h2 class="mb-1 text-gray-600 font-medium">灵感节点</h2>
+            <h2 class="mb-1 text-gray-600 font-medium">灵感笔记</h2>
             <CountTo
               :value="articleTotalCount"
               customClass="font-bold text-2xl text-gray-800"
@@ -281,7 +281,7 @@
         </div>
       </div>
 
-      <!-- 灵感节点发布热点图 -->
+      <!-- 灵感笔记发布热点图 -->
       <div class="col-span-4 md:col-span-4">
         <!-- 卡片 -->
         <div
@@ -322,7 +322,7 @@
                 p-id="43939"
               ></path>
             </svg>
-            近一年灵感节点发布热点图
+            近一年灵感笔记发布热点图
           </h2>
           <ArticlePublishCalendar
             :value="articlePublishInfo"
@@ -342,7 +342,7 @@ import {
 import CountTo from '@/components/CountTo.vue'
 import ArticlePublishCalendar from '@/components/ArtilcePublishCalendar.vue'
 
-// 灵感节点总数，默认值为 0
+// 灵感笔记总数，默认值为 0
 const articleTotalCount = ref(0)
 // 灵感总数
 const categoryTotalCount = ref(0)
@@ -360,7 +360,7 @@ getBaseStatisticsInfo().then(res => {
   }
 })
 
-// 按日统计灵感节点发布数据
+// 按日统计灵感笔记发布数据
 const articlePublishInfo = ref({})
 getPublishArticleStatisticsInfo().then(res => {
   if (res.success) {

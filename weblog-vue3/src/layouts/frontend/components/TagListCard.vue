@@ -111,7 +111,7 @@ getTagList({ size: size.value }).then(res => {
   }
 })
 
-// 跳转标签灵感节点列表页
+// 跳转标签灵感笔记列表页
 const goTagArticleListPage = (id, name) => {
   // 跳转时通过 query 携带参数（标签 ID、标签名称）
   router.push({ path: '/tag/article/list', query: { id, name } })

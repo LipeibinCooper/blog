@@ -23,8 +23,8 @@ public class StatisticsTagArticleTotalRunner implements CommandLineRunner {
     @Override
     @Async("threadPoolTaskExecutor")
     public void run(String... args) throws Exception {
-        log.info("==> 开始统计各标签下灵感节点数量...");
+        log.info("==> 开始统计各标签下灵感笔记数量...");
         statisticsService.statisticsTagArticleTotal();
-        log.info("==> 结束统计各标签下灵感节点数量...");
+        log.info("==> 结束统计各标签下灵感笔记数量...");
     }
 }

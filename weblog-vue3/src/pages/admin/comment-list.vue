@@ -4,7 +4,7 @@
         <el-card shadow="never" class="mb-5">
             <!-- flex 布局，内容垂直居中 -->
             <div class="flex items-center">
-                <el-text>灵感节点</el-text>
+                <el-text>灵感笔记</el-text>
                 <div class="ml-3 w-52 mr-5"><el-input v-model="searchRouterUrl" placeholder="请输入（模糊查询）" clearable />
                 </div>
 
@@ -34,7 +34,7 @@
                 <el-table-column type="index" label="序号" width="60" />
                 <el-table-column prop="nickname" label="昵称" />
                 <el-table-column prop="mail" label="邮箱" />
-                <el-table-column prop="routerUrl" label="灵感节点">
+                <el-table-column prop="routerUrl" label="灵感笔记">
                     <template #default="scope">
                         <el-link type="primary" :href="'#' + scope.row.routerUrl" target="_blank">{{ getArticleTitleFromUrl(scope.row.routerUrl) }}</el-link>
                     </template>
@@ -84,7 +84,7 @@
         <!-- 查看评论详情 -->
         <el-dialog v-model="detailDialogVisible" title="评论详情" width="700">
             <el-form :model="commentDetail" label-width="auto">
-                <el-form-item label="灵感节点">
+                <el-form-item label="灵感笔记">
                     <el-input v-model="commentDetail.routerUrl" disabled />
                 </el-form-item>
                 <el-form-item label="昵称">

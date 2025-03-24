@@ -9,7 +9,7 @@
         <!-- 博客 LOGO 、博客名称 -->
         <a href="/" class="flex items-center">
           <img
-            src="@/assets/weblog-logo.png"
+            :src="isDark ? logoDark : logoLight"
             class="h-16 mr-3"
             alt="灵感博客 Logo"
           />
@@ -104,7 +104,7 @@
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>
-            <span class="mr-3">搜索灵感节点 ...</span>
+            <span class="mr-3">搜索灵感笔记 ...</span>
             <span
               class="px-2 py-[1px] flex-none text-xs border text-gray-400 rounded dark:border-gray-600"
               >Ctrl K</span
@@ -244,7 +244,7 @@
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>
-            <span class="mr-3 grow text-left">搜索灵感节点 ...</span>
+            <span class="mr-3 grow text-left">搜索灵感笔记 ...</span>
             <span
               class="px-2 py-[1px] flex-none text-xs border text-gray-400 rounded dark:border-gray-600"
               >Ctrl K</span
@@ -478,7 +478,7 @@
             <p
               class="text-base leading-relaxed text-gray-500 dark:text-gray-400"
             >
-              共搜索到 {{ total }} 篇相关灵感节点
+              共搜索到 {{ total }} 篇相关灵感笔记
             </p>
             <ol class="mt-3 divide-y divider-gray-200 dark:divide-gray-600">
               <li v-for="(article, index) in searchArticles" :key="index">
@@ -883,6 +883,10 @@ import { useDark, useToggle } from '@vueuse/core'
 const isDark = useDark({ disableTransition: false })
 const toggleDark = useToggle(isDark)
 
+// logo路径
+import logoLight from '@/assets/weblog-logo1.png'
+import logoDark from '@/assets/weblog-logo.png'
+
 // 初始化 flowbit 相关组件
 onMounted(() => {
   initCollapses()
@@ -987,7 +991,7 @@ const handleKeyDown = event => {
   }
 }
 
-// 灵感节点搜索结果
+// 灵感笔记搜索结果
 const searchArticles = ref([])
 // 当前页码，给了一个默认值 1
 const current = ref(1)
@@ -1056,7 +1060,7 @@ const prePage = () => {
   })
 }
 
-// 点击搜索结果，跳转灵感节点详情页
+// 点击搜索结果，跳转灵感笔记详情页
 const jumpToArticleDetailPage = articleId => {
   // 隐藏搜索对话框
   searchModal.value.hide()

@@ -114,9 +114,9 @@
         <div
           class="max-w-3xl mx-auto xl:max-w-none xl:ml-0 xl:mr-[15.5rem] xl:pr-16"
         >
-          <!-- 灵感节点 -->
+          <!-- 灵感笔记 -->
           <article>
-            <!-- 灵感节点标题、Meta 信息 -->
+            <!-- 灵感笔记标题、Meta 信息 -->
             <div class="mt-5 mb-5">
               <h1
                 class="font-bold text-3xl md:text-4xl mb-5 dark:text-gray-400"
@@ -457,21 +457,21 @@ getWikiCatalogs(route.params.wikiId).then(res => {
 // 是否为暗黑模式
 const isDark = useDark({ disableTransition: false })
 
-// 灵感节点数据
+// 灵感笔记数据
 const article = ref({})
 // 上下页
 const preNext = ref(null)
 
-// 获取灵感节点详情
+// 获取灵感笔记详情
 function refreshArticleDetail (articleId) {
   if (!articleId) {
-    // 该知识库下暂未添加灵感节点
+    // 该知识库下暂未添加灵感笔记
     return
   }
 
-  // 灵感节点详情
+  // 灵感笔记详情
   getArticleDetail(articleId).then(res => {
-    // 该灵感节点不存在(错误码为 20010)
+    // 该灵感笔记不存在(错误码为 20010)
     if (!res.success && res.errorCode == '20010') {
       // 手动跳转 404 页面
       router.push({ name: 'NotFound' })
@@ -554,14 +554,14 @@ function copyToClipboard (text) {
   document.body.removeChild(textarea)
 }
 
-// 跳转灵感节点详情页
+// 跳转灵感笔记详情页
 const goWikiArticleDetailPage = articleId => {
   router.push({ path: '/wiki/' + route.params.wikiId, query: { articleId } })
 }
 
 // 监听路由
 watch(route, (newRoute, oldRoute) => {
-  // 重新渲染灵感节点详情
+  // 重新渲染灵感笔记详情
   refreshArticleDetail(newRoute.query.articleId)
 })
 

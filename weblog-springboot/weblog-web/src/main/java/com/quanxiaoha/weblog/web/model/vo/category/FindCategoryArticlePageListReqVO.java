@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
  * @author: 木萨·塔布提
  * @url: blog.arnasoft.site
  * @date: 2023-09-15 14:07
- * @description: 灵感文章
+ * @description: 灵感笔记
  **/
 @Data
 @AllArgsConstructor

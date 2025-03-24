@@ -91,7 +91,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="articlesTotal" label="灵感节点数" width="120" align="center">
+        <el-table-column prop="articlesTotal" label="灵感笔记数" width="120" align="center">
           <template #default="scope">
             <div class="flex items-center justify-center">
               <el-icon class="mr-1 text-purple-500"><Document /></el-icon>
@@ -155,7 +155,7 @@
     <!-- 添加灵感 -->
     <FormDialog
       ref="formDialogRef"
-      title="添加灵感节点灵感"
+      title="添加灵感笔记灵感"
       destroyOnClose
       @submit="onSubmit"
     >
@@ -300,7 +300,7 @@ const addCategoryBtnClick = () => {
 // 表单引用
 const formRef = ref(null)
 
-// 添加灵感节点灵感表单对象
+// 添加灵感笔记灵感表单对象
 const form = reactive({
   name: ''
 })

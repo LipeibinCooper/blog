@@ -122,7 +122,7 @@ public interface ArticleMapper extends BaseMapper<ArticleDO> {
     }
 
     /**
-     * 按日分组，并统计每日发布的灵感节点数量
+     * 按日分组，并统计每日发布的灵感笔记数量
      * @param startDate
      * @param endDate
      * @return

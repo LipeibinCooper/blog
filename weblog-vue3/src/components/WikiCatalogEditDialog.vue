@@ -124,7 +124,7 @@
                     <el-icon>
                       <Plus />
                     </el-icon>
-                    添加灵感节点
+                    添加灵感笔记
                   </el-dropdown-item>
                   <el-dropdown-item
                     :command="{
@@ -289,10 +289,10 @@
     </el-form>
   </FormDialog>
 
-  <!-- 添加灵感节点到目录 -->
+  <!-- 添加灵感笔记到目录 -->
   <FormDialog
     ref="addArticle2CatalogDialogRef"
-    title="添加灵感节点"
+    title="添加灵感笔记"
     width="80%"
     confirmText="添加"
     destroyOnClose
@@ -303,7 +303,7 @@
       <el-card shadow="never" class="mb-5">
         <!-- flex 布局，内容垂直居中 -->
         <div class="flex items-center">
-          <el-text>灵感节点标题</el-text>
+          <el-text>灵感笔记标题</el-text>
           <div class="ml-3 w-52 mr-5">
             <el-input
               v-model="searchArticleTitle"
@@ -533,9 +533,9 @@ function deleteCatalog (catalogs, targetId) {
   return catalogs
 }
 
-// 移出二级目录中的灵感节点
+// 移出二级目录中的灵感笔记
 const removeArticleFromCatalog = catalogId => {
-  showModel('是否确定移除该篇灵感节点？')
+  showModel('是否确定移除该篇灵感笔记？')
     .then(() => {
       deleteCatalog(catalogs.value, catalogId)
       console.log(catalogs.value)
@@ -681,10 +681,10 @@ const onAddCatalogSubmit = () => {
   })
 }
 
-// 添加灵感节点到目录对话框引用
+// 添加灵感笔记到目录对话框引用
 const addArticle2CatalogDialogRef = ref(null)
 
-// 模糊搜索的灵感节点标题
+// 模糊搜索的灵感笔记标题
 const searchArticleTitle = ref('')
 // 日期
 const pickDate = ref('')
@@ -754,7 +754,7 @@ const size = ref(10)
 function getTableData () {
   // 显示表格 loading
   tableLoading.value = true
-  // 调用后台分页接口，并传入所需参数 (指定只查询未被收录进知识库的灵感节点)
+  // 调用后台分页接口，并传入所需参数 (指定只查询未被收录进知识库的灵感笔记)
   getArticlePageList({
     current: current.value,
     size: size.value,
@@ -790,7 +790,7 @@ function updateWikiCatalogsData () {
   )
 }
 
-// 被选择的灵感节点
+// 被选择的灵感笔记
 const selectionArticles = ref([])
 // 表格选择事件
 const handleSelectionChange = articles => {
@@ -798,20 +798,20 @@ const handleSelectionChange = articles => {
   selectionArticles.value = articles
 }
 
-// 添加灵感节点到目录下
+// 添加灵感笔记到目录下
 const onAddArticle2CatalogSubmit = () => {
-  // 校验是否选中灵感节点
+  // 校验是否选中灵感笔记
   if (!selectionArticles.value || selectionArticles.value.length === 0) {
-    showMessage('请勾选需要添加的灵感节点', 'warning')
+    showMessage('请勾选需要添加的灵感笔记', 'warning')
     return
   }
 
   for (const catalog of catalogs.value) {
     // 找到当前被编辑的目录
     if (catalog.id === currCatalogId.value) {
-      // 循环添加被选中的灵感节点
+      // 循环添加被选中的灵感笔记
       for (const selectionArticle of selectionArticles.value) {
-        // 灵感节点标题
+        // 灵感笔记标题
         let articleTitle = selectionArticle.title
         // 构建新的二级目录
         let newCatalog = {
@@ -829,7 +829,7 @@ const onAddArticle2CatalogSubmit = () => {
   }
   // 关闭对话框
   addArticle2CatalogDialogRef.value.close()
-  // 置空被选择的灵感节点
+  // 置空被选择的灵感笔记
   selectionArticles.value = []
   updateWikiCatalogsData()
 }

@@ -169,9 +169,9 @@ const router = useRouter()
 const archives = ref([])
 // 当前页码
 const current = ref(1)
-// 每页显示的灵感节点数
+// 每页显示的灵感笔记数
 const size = ref(10)
-// 总灵感节点数
+// 总灵感笔记数
 const total = ref(0)
 // 总共多少页
 const pages = ref(0)

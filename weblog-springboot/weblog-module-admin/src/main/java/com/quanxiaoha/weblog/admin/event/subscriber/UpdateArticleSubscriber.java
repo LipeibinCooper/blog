@@ -47,7 +47,7 @@ public class UpdateArticleSubscriber implements ApplicationListener<UpdateArticl
         log.info("==> threadName: {}", threadName);
         log.info("==> 文章更新事件消费成功，articleId: {}", articleId);
 
-        // 查询灵感节点数据
+        // 查询灵感笔记数据
         ArticleDO articleDO = articleMapper.selectById(articleId);
         ArticleContentDO articleContentDO = articleContentMapper.selectByArticleId(articleId);
 

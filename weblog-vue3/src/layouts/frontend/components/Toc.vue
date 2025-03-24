@@ -30,7 +30,7 @@
           p-id="4045"
         ></path>
       </svg>
-      灵感节点目录
+      灵感笔记目录
     </h2>
     <div class="toc-wrapper" :class="[isDark ? 'dark' : '']">
       <ul class="toc">
